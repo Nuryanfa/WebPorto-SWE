@@ -1,0 +1,133 @@
+/* ============================================
+   Observatory Portfolio — Design Tokens
+   Based on PRD §5.1 Astronomy/Star Catalog Theme
+   ============================================ */
+
+:root {
+  /* ── Backgrounds ── */
+  --bg-void: #0A0E1A;
+  --bg-panel: #121825;
+  --bg-elevated: #1A2235;
+
+  /* ── Text ── */
+  --text-star: #F0F2F9;
+  --text-dim: #9BA3B8;
+  --text-faint: #4A5468;
+
+  /* ── Accent: Nebula (primary interactive) ── */
+  --accent-nebula: #8B7BFF;
+  --accent-nebula-dim: #2A2451;
+  --accent-nebula-glow: rgba(139, 123, 255, 0.35);
+
+  /* ── Accent: Solar (highlight, meaningful only) ── */
+  --accent-solar: #FFB366;
+  --accent-solar-dim: #4D3419;
+  --accent-solar-glow: rgba(255, 179, 102, 0.30);
+
+  /* ── Accent: Cyan (new accent) ── */
+  --accent-cyan: #5DFDCB;
+  --accent-cyan-dim: #1A3D37;
+  --accent-cyan-glow: rgba(93, 253, 203, 0.25);
+
+  /* ── Accent: Pink (new accent) ── */
+  --accent-pink: #FF6BB5;
+  --accent-pink-dim: #3D1F31;
+  --accent-pink-glow: rgba(255, 107, 181, 0.25);
+
+  /* ── Lines & Borders ── */
+  --line-hairline: rgba(240, 242, 249, 0.12);
+  --line-hairline-strong: rgba(240, 242, 249, 0.25);
+
+  /* ── Typography ── */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── Type Scale (fluid, clamp-based) ── */
+  --text-xs: clamp(0.625rem, 0.6rem + 0.125vw, 0.75rem);       /* 10-12px */
+  --text-sm: clamp(0.75rem, 0.725rem + 0.125vw, 0.875rem);      /* 12-14px */
+  --text-base: clamp(0.875rem, 0.85rem + 0.125vw, 1rem);        /* 14-16px */
+  --text-lg: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);            /* 16-20px */
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.75rem);          /* 20-28px */
+  --text-2xl: clamp(1.75rem, 1.5rem + 1.25vw, 3rem);            /* 28-48px */
+  --text-3xl: clamp(2.5rem, 2rem + 2.5vw, 5rem);                /* 40-80px */
+
+  /* ── Spacing Scale ── */
+  --space-1: 0.25rem;    /* 4px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-4: 1rem;       /* 16px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-8: 2rem;       /* 32px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+
+  /* ── Motion ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 600ms;
+  --duration-reveal: 800ms;
+
+  /* ── Layout ── */
+  --max-width: 1280px;
+  --nav-height: 4rem;
+
+  /* ── Clip paths ── */
+  --clip-angular: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  --clip-angular-sm: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.vignette-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1; /* Above canvas 3D, below content */
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 35%,
+    rgba(10, 14, 26, 0.6) 100%
+  );
+}
+
+/* ── Enhanced Background Effects ── */
+@keyframes gradient-shift {
+  0%, 100% { 
+    transform: translate(0%, 0%) scale(1);
+    opacity: 1;
+  }
+  33% { 
+    transform: translate(5%, -5%) scale(1.05);
+    opacity: 0.8;
+  }
+  66% { 
+    transform: translate(-5%, 5%) scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+@keyframes float-up {
+  from {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-100vh) scale(1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}

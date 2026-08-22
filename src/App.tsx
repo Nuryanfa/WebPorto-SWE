@@ -86,14 +86,14 @@ function AnimatedRoutes() {
 import { NoiseOverlay } from '@/components/reactbits/NoiseOverlay';
 import { CustomCursor } from '@/components/ui/CustomCursor';
 import { SmoothScroll } from '@/components/providers/SmoothScroll';
-import { AmbientBackground } from '@/components/layout/AmbientBackground';
+import { AstronomyImmersive } from '@/components/background/AstronomyImmersive';
 
 export default function App() {
   return (
     <BrowserRouter>
       <SmoothScroll>
       <div className="min-h-screen flex flex-col" style={{ position: 'relative', zIndex: 1 }}>
-        <AmbientBackground />
+        <AstronomyImmersive />
         <NoiseOverlay />
         <CustomCursor />
         <Navbar />

@@ -3,14 +3,19 @@ import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { Button } from '@/components/ui/Button';
 import { Panel } from '@/components/ui/Panel';
 import { Code2, Globe, Mail, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
 
 /**
  * Contact — "Transmission" (PRD §6.6)
  * 
  * Panel with "send a signal" framing.
  * One solid CTA, contact channels in mono coordinate style.
+ * 
+ * Background: Now managed by BackgroundRouter in App.tsx
  */
 export function Contact() {
+  const [signalTrigger, setSignalTrigger] = useState(0);
+
   const channels = [
     {
       icon: Mail,
@@ -32,9 +37,14 @@ export function Contact() {
     },
   ];
 
+  const handleSendTransmission = () => {
+    // Trigger signal ping animation
+    setSignalTrigger(prev => prev + 1);
+  };
+
   return (
-    <section id="contact" className="section-spacing">
-      <div className="container-observatory max-w-2xl">
+    <section id="contact" className="section-spacing relative">
+      <div className="container-observatory max-w-2xl relative z-10">
         <FocusPullReveal>
           <SectionEyebrow index="05" label="TRANSMISSION" />
         </FocusPullReveal>
@@ -62,7 +72,11 @@ export function Contact() {
 
             {/* CTA */}
             <div className="mb-10">
-              <Button variant="solid" href="mailto:contact@example.com">
+              <Button 
+                variant="solid" 
+                href="mailto:contact@example.com"
+                onClick={handleSendTransmission}
+              >
                 Send Transmission
               </Button>
             </div>

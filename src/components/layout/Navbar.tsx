@@ -67,24 +67,23 @@ export function Navbar() {
     e.preventDefault();
 
     const [pagePath, hash] = href.split('#');
-    const targetPath = pagePath === '' ? '/' : pagePath; // '/#experience' → '/'
+    const targetPath = pagePath === '' ? '/' : pagePath;
 
-    const scrollToHash = () => {
+    const scrollToElement = () => {
       const el = document.getElementById(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        window.history.replaceState(null, '', `/${hash ? '#' + hash : ''}`);
-      }
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     if (location.pathname === targetPath) {
-      // Already on the right page — just scroll
-      scrollToHash();
+      // Already on the right page:
+      // 1. Tell the router about the hash so location.hash updates
+      navigate({ pathname: targetPath, hash: `#${hash}` }, { replace: true });
+      // 2. Scroll to element
+      scrollToElement();
     } else {
-      // Navigate to the page first, then scroll once the DOM settles
-      navigate(targetPath);
-      // Small delay to let React render the destination page
-      setTimeout(scrollToHash, 120);
+      // Navigate to the page with the hash, then scroll
+      navigate({ pathname: targetPath, hash: `#${hash}` });
+      setTimeout(scrollToElement, 120);
     }
   };
 

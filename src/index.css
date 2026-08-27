@@ -1,10 +1,10 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 
-/* ── Global Resets & Base ── */
-*,
-*::before,
-*::after {
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -24,57 +24,59 @@ body {
   background-color: var(--bg-base);
   min-height: 100vh;
   overflow-x: hidden;
-  position: relative;
 }
 
-/* ── Atmospheric Background System ── */
-/* Subtle gradient foundation */
+/* ═══════════════════════════════════════════
+   ATMOSPHERIC BACKGROUND
+   Two fixed pseudo-layers:
+   ::before — soft radial colour atmosphere
+   ::after  — barely-visible pixel dot grid
+   ═══════════════════════════════════════════ */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 0, 110, 0.06) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(0, 245, 255, 0.05) 0%, transparent 50%);
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 50%,  rgba(139, 92, 246, 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 85% 80%,  rgba(255,  0, 110, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 45% 10%,  rgba(  0,245, 255, 0.06) 0%, transparent 70%);
 }
 
-/* Very subtle grid (much less prominent than before) */
+/* Pixel dot grid — 6×6 dot, 40px tile, opacity 0.18 */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
-  opacity: 0.3;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.22;
 }
 
-/* ── Typography ── */
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY BASE
+   ═══════════════════════════════════════════ */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.05;
   color: var(--text-primary);
   letter-spacing: -0.03em;
 }
-
-h1 { font-size: var(--text-6xl); }
-h2 { font-size: var(--text-5xl); }
-h3 { font-size: var(--text-4xl); }
-h4 { font-size: var(--text-3xl); }
-h5 { font-size: var(--text-2xl); }
-h6 { font-size: var(--text-xl); }
+h1 { font-size: var(--text-7xl); }
+h2 { font-size: var(--text-6xl); }
+h3 { font-size: var(--text-5xl); }
+h4 { font-size: var(--text-4xl); }
+h5 { font-size: var(--text-3xl); }
+h6 { font-size: var(--text-2xl); }
 
 p {
   color: var(--text-secondary);
   max-width: 65ch;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 a {
@@ -82,107 +84,189 @@ a {
   text-decoration: none;
   transition: color var(--transition-fast);
 }
+a:hover { color: var(--accent-secondary); }
 
-a:hover {
-  color: var(--accent-secondary);
-}
-
-/* ── Utility Type Classes ── */
-.font-display {
-  font-family: var(--font-display);
-}
-
-.font-body {
-  font-family: var(--font-body);
-}
-
-.font-mono {
-  font-family: var(--font-mono);
-}
-
+/* ═══════════════════════════════════════════
+   FONT UTILITY CLASSES
+   ═══════════════════════════════════════════ */
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body);    }
+.font-mono    { font-family: var(--font-mono);    }
+/* Pixel font: use ONLY for short decorative labels */
 .font-pixel {
   font-family: var(--font-pixel);
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-/* ── Focus (Accessibility) ── */
-:focus-visible {
-  outline: 2px solid var(--accent-secondary);
-  outline-offset: 4px;
-  border-radius: var(--radius-sm);
+/* ═══════════════════════════════════════════
+   PIXEL VISUAL LANGUAGE UTILITIES
+   ═══════════════════════════════════════════ */
+
+/* Base pixel rendering */
+.pixel-decoration,
+.pixel-sprite,
+.pixel-perfect {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
-/* ── Selection ── */
-::selection {
-  background-color: var(--accent-primary);
-  color: #fff;
+/* Section eyebrow label — pixel font, small, uppercase */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-tertiary);
+}
+.section-label::before {
+  content: "";
+  display: inline-block;
+  width: var(--px-unit);
+  height: var(--px-unit);
+  background: currentColor;
+  image-rendering: pixelated;
 }
 
-/* ── Scrollbar (Webkit) ── */
-::-webkit-scrollbar {
-  width: 8px;
+/* Pixel tag — compact pill with stepped border */
+.px-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  background: var(--bg-elevated);
+  border: 1px solid rgba(255,255,255,0.07);
+  /* Stepped top-right corner (pixel clip) */
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
 }
-::-webkit-scrollbar-track {
-  background: var(--bg-base);
+.px-tag:hover {
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.15);
 }
-::-webkit-scrollbar-thumb {
-  background: var(--bg-panel);
-  border-radius: 4px;
+.px-tag--primary {
+  color: var(--accent-primary);
+  border-color: rgba(255,0,110,0.25);
 }
-::-webkit-scrollbar-thumb:hover {
+.px-tag--cyan {
+  color: var(--accent-secondary);
+  border-color: rgba(0,245,255,0.20);
+}
+
+/* Pixel divider — horizontal line with a centre diamond */
+.px-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin-block: var(--space-8);
+}
+.px-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
   background: var(--accent-primary);
+  transform: translate(-50%, -50%) rotate(45deg);
+  image-rendering: pixelated;
 }
 
-/* ── Layout Utilities ── */
+/* Pixel corner bracket decoration (::before / ::after on parent) */
+.px-frame {
+  position: relative;
+}
+.px-frame::before,
+.px-frame::after {
+  content: "";
+  position: absolute;
+  width: var(--px-corner);
+  height: var(--px-corner);
+  pointer-events: none;
+}
+.px-frame::before {
+  top: 0; left: 0;
+  border-top: var(--px-border) solid var(--accent-primary);
+  border-left: var(--px-border) solid var(--accent-primary);
+}
+.px-frame::after {
+  bottom: 0; right: 0;
+  border-bottom: var(--px-border) solid var(--accent-secondary);
+  border-right:  var(--px-border) solid var(--accent-secondary);
+}
+
+/* Pixel star (★ in pixel font) — inline decorative glyph */
+.px-star {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--accent-primary);
+  line-height: 1;
+  image-rendering: pixelated;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT UTILITIES
+   ═══════════════════════════════════════════ */
 .container-observatory {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
   padding-inline: var(--space-8);
 }
-
 @media (max-width: 768px) {
-  .container-observatory {
-    padding-inline: var(--space-6);
-  }
+  .container-observatory { padding-inline: var(--space-6); }
 }
-
 @media (max-width: 480px) {
-  .container-observatory {
-    padding-inline: var(--space-4);
-  }
+  .container-observatory { padding-inline: var(--space-4); }
 }
 
 .section-spacing {
   padding-block: clamp(4rem, 12vh, 10rem);
 }
-
 @media (max-width: 768px) {
-  .section-spacing {
-    padding-block: var(--space-16);
-  }
+  .section-spacing { padding-block: var(--space-16); }
 }
 
-/* ── Pixel Decorations ── */
-.pixel-decoration {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
+/* ═══════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
 }
 
-/* ── Reduced Motion (Accessibility) ── */
+::selection {
+  background-color: var(--accent-primary);
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb {
+  background: var(--bg-panel);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+/* ═══════════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  body::before,
-  body::after {
-    animation: none !important;
+  *, *::before, *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1     !important;
+    transition-duration:      0.01ms !important;
+    scroll-behavior: auto            !important;
   }
 }

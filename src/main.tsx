@@ -10,6 +10,10 @@ import '@fontsource/inter/600.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '@fontsource/outfit/400.css';
+import '@fontsource/syne/400.css';
+import '@fontsource/syne/700.css';
+import '@fontsource/syne/800.css';
+import '@fontsource/pixelify-sans/400.css';
 import './index.css'
 import App from './App'
 

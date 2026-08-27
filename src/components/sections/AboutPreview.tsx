@@ -1,161 +1,193 @@
 import { motion } from 'motion/react';
-import { Code2, Database, Shield, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { primaryCapabilities } from '@/data/skills';
 
-/**
- * About Section — Modern Editorial Design
- * Removes RPG/Character Select aesthetic
- * Focuses on real professional information
- */
+/* ─────────────────────────────────────────────
+   About Section — Editorial + Numbered Capabilities
+   
+   Layout:
+     LEFT  → personal statement, philosophy
+     RIGHT → numbered capability list (01 / 02 / 03)
+             with large display numbers and pixel accents
+   
+   No SaaS feature cards.
+   No fake statistics.
+   ───────────────────────────────────────────── */
+
 export function AboutPreview() {
-  const interests = [
-    { icon: Code2, label: 'Full-Stack Development', color: 'var(--accent-primary)' },
-    { icon: Database, label: 'Backend Architecture', color: 'var(--accent-secondary)' },
-    { icon: Shield, label: 'Security Engineering', color: 'var(--accent-violet)' },
-    { icon: Sparkles, label: 'Creative Frontend', color: 'var(--accent-acid)' },
-  ];
-
   return (
     <section id="about" className="section-spacing relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-10 w-32 h-32 bg-[var(--accent-primary)] opacity-10 blur-3xl rounded-full" />
-      <div className="absolute bottom-20 left-10 w-40 h-40 bg-[var(--accent-secondary)] opacity-10 blur-3xl rounded-full" />
+
+      {/* Atmospheric glow */}
+      <div aria-hidden="true"
+           className="absolute top-0 right-1/4 w-[500px] h-[400px]
+                      bg-[radial-gradient(ellipse,rgba(139,92,246,0.07)_0%,transparent_70%)]
+                      pointer-events-none" />
 
       <div className="container-observatory relative z-10">
-        
-        {/* Section eyebrow */}
+
+        {/* ── Section label ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex items-center gap-3 mb-6"
+          transition={{ duration: 0.5 }}
+          className="mb-12"
         >
-          <div className="w-3 h-3 pixel-decoration bg-[var(--accent-primary)]" />
-          <span className="font-mono text-xs md:text-sm text-[var(--accent-primary)] uppercase tracking-widest">
+          <span className="section-label text-[var(--accent-primary)]">
             About Me
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          
-          {/* Left: Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-24 items-start">
+
+          {/* ════════════════════════
+              LEFT — Personal statement
+              ════════════════════════ */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-8"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-[var(--text-primary)] leading-tight">
-              Building Digital
-              <span className="block bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">
-                Experiences
-              </span>
+            {/* Headline */}
+            <h2 className="font-display font-extrabold leading-[1.0] tracking-tight
+                           text-[var(--text-primary)]"
+                style={{ fontSize: 'clamp(2.6rem, 5vw + 1rem, 4.5rem)' }}>
+              A Software
+              <span className="block text-[var(--accent-primary)]">Engineer</span>
+              who builds things.
             </h2>
 
-            <div className="space-y-4 text-[var(--text-secondary)] text-base md:text-lg leading-relaxed">
-              <p>
-                I'm <strong className="text-[var(--text-primary)] font-semibold">Muhamad Nur Yanfa</strong>, 
-                a Software Engineer passionate about creating robust, scalable systems and 
-                delightful user experiences.
+            {/* Bio paragraphs */}
+            <div className="space-y-4 text-[var(--text-secondary)] leading-[1.8]"
+                 style={{ fontSize: 'clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem)' }}>
+              <p className="max-w-[48ch]">
+                I'm <strong className="text-[var(--text-primary)] font-semibold">
+                  Muhamad Nur Yanfa
+                </strong> — a Software Engineer focused on building reliable,
+                well-designed systems that solve real problems.
               </p>
-              <p>
-                My journey spans <strong className="text-[var(--accent-primary)]">full-stack development</strong>, 
-                <strong className="text-[var(--accent-secondary)]"> backend architecture</strong>, and 
-                <strong className="text-[var(--accent-violet)]"> security engineering</strong>. 
-                I believe great software is built at the intersection of solid engineering principles 
-                and thoughtful design.
+              <p className="max-w-[48ch]">
+                My work sits at the intersection of full-stack development and
+                security engineering. I care about how software is architected,
+                not just how it looks on the surface.
               </p>
-              <p>
-                Currently exploring <strong className="text-[var(--accent-acid)]">modern web technologies</strong>, 
-                system design patterns, and security best practices while building projects that solve 
-                real-world problems.
+              <p className="max-w-[48ch]">
+                Currently finishing my degree in Informatics Engineering while
+                building web applications, contributing to security research,
+                and sharpening my understanding of system design.
               </p>
+            </div>
+
+            {/* Engineering philosophy pill */}
+            <div className="inline-flex items-center gap-3 px-4 py-2
+                            bg-[var(--bg-elevated)] border border-white/8 rounded-sm">
+              <span className="w-2 h-2 pixel-decoration bg-[var(--accent-acid)]" />
+              <span className="font-mono text-xs text-[var(--text-tertiary)] tracking-wide">
+                Clean code · Thoughtful design · Continuous learning
+              </span>
             </div>
 
             {/* CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="pt-4"
-            >
-              <a
-                href="/about"
-                className="inline-flex items-center gap-2 text-[var(--accent-primary)] font-display font-semibold hover:gap-4 transition-all group"
-              >
-                Learn more about me
-                <motion.span
-                  className="text-xl"
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
-              </a>
-            </motion.div>
-          </motion.div>
-
-          {/* Right: Visual/Interests */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
-          >
-            {/* Interest cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {interests.map((interest, index) => (
-                <motion.div
-                  key={interest.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 * index }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  className="relative group p-6 bg-[var(--bg-elevated)] border border-white/5 rounded-lg hover:border-white/10 transition-all overflow-hidden"
-                >
-                  {/* Glow effect on hover */}
-                  <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity blur-xl"
-                    style={{ backgroundColor: interest.color }}
-                  />
-                  
-                  <div className="relative z-10">
-                    <interest.icon 
-                      size={32} 
-                      className="mb-4 transition-colors"
-                      style={{ color: interest.color }}
-                    />
-                    <h3 className="font-display text-sm font-semibold text-[var(--text-primary)] leading-tight">
-                      {interest.label}
-                    </h3>
-                  </div>
-
-                  {/* Pixel decoration */}
-                  <div 
-                    className="absolute bottom-2 right-2 w-2 h-2 pixel-decoration opacity-50"
-                    style={{ backgroundColor: interest.color }}
-                  />
-                </motion.div>
-              ))}
+            <div>
+              <Button href="/about" variant="ghost" arrow>
+                Full background
+              </Button>
             </div>
-
-            {/* Floating pixel decorations */}
-            <motion.div
-              className="absolute -top-4 -right-4 w-4 h-4 pixel-decoration bg-[var(--accent-primary)]"
-              animate={{ y: [0, -10, 0], opacity: [0.3, 1, 0.3] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-            <motion.div
-              className="absolute -bottom-4 -left-4 w-3 h-3 pixel-decoration bg-[var(--accent-secondary)]"
-              animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
-              transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-            />
           </motion.div>
+
+          {/* ════════════════════════
+              RIGHT — Numbered capabilities
+              ════════════════════════ */}
+          <div className="space-y-0">
+            {primaryCapabilities.map((cap, i) => (
+              <CapabilityRow key={cap.index} cap={cap} delay={i * 0.12} />
+            ))}
+          </div>
+
         </div>
       </div>
     </section>
+  );
+}
+
+/* ── Single capability row ───────────────────
+   Large index number + title + description
+   Separated by pixel dividers.
+   ─────────────────────────────────────────── */
+function CapabilityRow({
+  cap,
+  delay,
+}: {
+  cap: (typeof primaryCapabilities)[number];
+  delay: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] }}
+      whileHover="hover"
+      className="group relative"
+    >
+      {/* Top pixel divider */}
+      <div className="px-divider" />
+
+      <div className="py-8 grid grid-cols-[auto_1fr] gap-6 items-start">
+
+        {/* Index number — oversized, accent-coloured */}
+        <div className="relative w-16 flex-shrink-0">
+          <motion.span
+            className="font-display font-extrabold leading-none select-none
+                       opacity-20 group-hover:opacity-40
+                       transition-opacity duration-200"
+            style={{
+              fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+              color: cap.accent,
+            }}
+            variants={{
+              hover: { scale: 1.05, transition: { duration: 0.2 } },
+            }}
+          >
+            {cap.index}
+          </motion.span>
+
+          {/* Pixel dot beside number */}
+          <motion.span
+            aria-hidden="true"
+            className="absolute -right-2 top-1/2 -translate-y-1/2
+                       w-2 h-2 pixel-decoration"
+            style={{ background: cap.accent }}
+            variants={{
+              hover: {
+                scale: [1, 1.6, 1],
+                transition: { duration: 0.35, ease: 'easeInOut' },
+              },
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="space-y-2 pt-1">
+          {/* Title — newline chars become separate lines via whitespace-pre-line */}
+          <h3
+            className="font-display font-bold leading-[1.05] tracking-tight
+                       text-[var(--text-primary)] group-hover:text-[var(--accent-primary)]
+                       transition-colors duration-200 whitespace-pre-line"
+            style={{ fontSize: 'clamp(1.4rem, 2vw + 0.5rem, 2rem)', color: undefined }}
+          >
+            {cap.title}
+          </h3>
+
+          <p className="font-body text-[var(--text-tertiary)] leading-relaxed max-w-[38ch]"
+             style={{ fontSize: 'clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem)' }}>
+            {cap.description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
   );
 }

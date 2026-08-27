@@ -1,171 +1,218 @@
 import { useParams, Link } from 'react-router-dom';
-import { PixelWindow } from '@/components/pixel/PixelWindow';
+import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { projects } from '@/data/projects';
-import { ArrowLeft, ExternalLink, Code2, FileText } from 'lucide-react';
+import { ArrowLeft, ExternalLink, GitBranch, FileText } from 'lucide-react';
 
 /**
- * Project Detail — individual catalog entry case study.
+ * Project Detail — clean editorial case-study view.
+ * Matches the new anime × pixel × editorial design language.
  */
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const project = projects.find((p) => p.slug === slug);
+  const project   = projects.find((p) => p.slug === slug);
 
+  /* ── 404 state ── */
   if (!project) {
     return (
       <div className="pt-[var(--nav-height)] section-spacing">
-        <div className="container-observatory text-center">
-          <div className="font-mono text-xs tracking-[0.25em] text-[var(--text-faint)] mb-6 uppercase">
-            [ ERROR_404 ]
-          </div>
-          <h1 className="text-[var(--accent-pink)] mb-6 font-display glitch" data-text="GAME OVER">
-            GAME OVER
+        <div className="container-observatory flex flex-col items-center text-center gap-6">
+          <span className="section-label text-[var(--accent-primary)]">404</span>
+          <h1 className="font-display font-extrabold text-[var(--text-primary)]"
+              style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}>
+            Project not found
           </h1>
-          <p className="text-[var(--text-secondary)] font-mono mb-8">
-            The requested mission data could not be located in the save file.
+          <p className="text-[var(--text-secondary)] max-w-sm">
+            This project doesn't exist or may have been moved.
           </p>
-          <Button variant="solid" href="/projects" className="border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] bg-[var(--accent-cyan)] text-[var(--bg-base)]">
-            CONTINUE ?
+          <Button href="/projects" variant="primary">
+            Back to Projects
           </Button>
         </div>
       </div>
     );
   }
 
+  const statusColor =
+    project.status === 'In Progress' ? 'var(--accent-acid)'
+    : project.status === 'Completed' ? 'var(--accent-secondary)'
+    : 'var(--accent-violet)';
+
   return (
     <div className="pt-[var(--nav-height)]">
-      <section className="section-spacing">
+      <article className="section-spacing">
         <div className="container-observatory max-w-4xl">
-          {/* Back link */}
-          <Link
-            to="/projects"
-            className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-yellow)] transition-colors text-sm mb-8 no-underline font-mono uppercase bg-[var(--bg-panel)] px-3 py-1 border-2 border-[var(--pixel-border-dark)]"
+
+          {/* ── Back link ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-12"
           >
-            <ArrowLeft size={14} />
-            <span>RETURN TO MENU</span>
-          </Link>
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 text-[var(--text-tertiary)]
+                         hover:text-[var(--accent-primary)] transition-colors
+                         font-mono text-xs tracking-widest uppercase no-underline"
+            >
+              <ArrowLeft size={14} />
+              All Projects
+            </Link>
+          </motion.div>
 
-          {/* Designation header */}
-          <div className="font-mono text-[var(--accent-pink)] tracking-widest uppercase mb-2">
-            [ {project.designation} ] - {project.sector}
-          </div>
-
-          <h1
-            className="text-[var(--text-primary)] mb-8 uppercase font-display glitch"
-            style={{ fontSize: 'var(--text-2xl)', textShadow: '4px 4px 0 var(--pixel-border-dark)' }}
-            data-text={project.title}
+          {/* ── Header ── */}
+          <motion.header
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-12"
           >
-            {project.title}
-          </h1>
-
-          {/* Metadata panel */}
-          <PixelWindow className="mb-10" title="MISSION_DATA.DAT">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-[var(--bg-base)] p-3 border-2 border-[var(--pixel-border-dark)]">
-                <div className="font-mono text-[10px] tracking-widest text-[var(--accent-cyan)] uppercase mb-2">
-                  MAGNITUDE
-                </div>
-                <div className="text-sm text-[var(--text-primary)] uppercase font-mono">
-                  {project.magnitude}
-                </div>
-              </div>
-              <div className="bg-[var(--bg-base)] p-3 border-2 border-[var(--pixel-border-dark)]">
-                <div className="font-mono text-[10px] tracking-widest text-[var(--accent-yellow)] uppercase mb-2">
-                  STATUS
-                </div>
-                <div className="flex items-center gap-2 uppercase font-mono text-sm text-[var(--text-primary)]">
-                  <span
-                    className={`
-                      w-2 h-2 block animate-pulse
-                      ${project.status === 'In Progress'
-                        ? 'bg-[var(--accent-yellow)]'
-                        : project.status === 'Completed'
-                          ? 'bg-[var(--accent-cyan)]'
-                          : 'bg-[var(--text-faint)]'
-                      }
-                    `}
-                  />
+            {/* Designation + sector */}
+            <div className="flex items-center gap-3 mb-5">
+              <span className="font-mono text-sm font-bold"
+                    style={{ color: statusColor }}>
+                {project.designation}
+              </span>
+              <span className="text-[var(--text-faint)]">·</span>
+              <span className="font-mono text-xs text-[var(--text-tertiary)]
+                               uppercase tracking-widest">
+                {project.sector}
+              </span>
+              {/* Status badge */}
+              <span className="ml-auto flex items-center gap-1.5 px-3 py-1
+                               bg-[var(--bg-elevated)] border border-white/8 rounded-full">
+                <motion.span
+                  className="w-2 h-2 rounded-full pixel-decoration"
+                  style={{ background: statusColor }}
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+                <span className="font-mono text-[11px]" style={{ color: statusColor }}>
                   {project.status}
-                </div>
-              </div>
-              <div className="bg-[var(--bg-base)] p-3 border-2 border-[var(--pixel-border-dark)]">
-                <div className="font-mono text-[10px] tracking-widest text-[var(--accent-pink)] uppercase mb-2">
-                  SECTOR
-                </div>
-                <div className="text-sm text-[var(--text-primary)] uppercase font-mono">
-                  {project.sector}
-                </div>
-              </div>
+                </span>
+              </span>
             </div>
-          </PixelWindow>
 
-          {/* Description */}
-          <div className="mb-12 bg-[var(--bg-panel)] border-4 border-[var(--pixel-border-light)] border-b-[var(--pixel-border-dark)] border-r-[var(--pixel-border-dark)] p-6 shadow-[4px_4px_0_var(--pixel-border-dark)]">
-            <div className="font-mono text-xs tracking-widest text-[var(--accent-cyan)] uppercase mb-4 border-b-2 border-dashed border-[var(--pixel-border-light)] pb-2">
-              &gt; MISSION_BRIEFING
-            </div>
-            <p className="text-[var(--text-secondary)] leading-relaxed font-mono whitespace-pre-wrap">
+            {/* Title */}
+            <h1 className="font-display font-extrabold leading-[1.0] tracking-tight
+                           text-[var(--text-primary)] mb-6"
+                style={{ fontSize: 'clamp(2.4rem, 5vw + 1rem, 4rem)' }}>
+              {project.title}
+            </h1>
+
+            {/* Description */}
+            <p className="text-[var(--text-secondary)] leading-[1.8] max-w-[60ch]"
+               style={{ fontSize: 'clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem)' }}>
               {project.longDescription || project.description}
             </p>
-          </div>
+          </motion.header>
 
-          {/* Tech Stack */}
-          <div className="mb-12">
-            <div className="font-display text-sm tracking-widest text-[var(--accent-yellow)] uppercase mb-6">
-              EQUIPPED_GEAR
-            </div>
-            <div className="flex flex-wrap gap-3">
+          {/* ── Pixel divider ── */}
+          <div className="px-divider" />
+
+          {/* ── Tech Stack ── */}
+          <motion.section
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.5 }}
+            className="py-10"
+            aria-label="Technology Stack"
+          >
+            <span className="section-label text-[var(--accent-secondary)] mb-5 block">
+              Built With
+            </span>
+            <div className="flex flex-wrap gap-2">
               {project.techStack.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1.5 text-xs font-mono tracking-wider text-[var(--text-primary)] bg-[var(--bg-elevated)] border-2 border-[var(--pixel-border-dark)] hover:bg-[var(--accent-pink)] transition-colors cursor-default"
-                >
-                  {tech}
-                </span>
+                <span key={tech} className="px-tag">{tech}</span>
               ))}
             </div>
-          </div>
+          </motion.section>
 
-          {/* Links */}
-          {project.links && (
-            <div className="flex flex-wrap gap-4 pt-6 border-t-4 border-[var(--pixel-border-dark)]">
-              {project.links.github && (
-                <a
-                  href={project.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 font-mono text-[var(--text-primary)] bg-[var(--bg-panel)] border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] hover:bg-[var(--accent-cyan)] hover:text-[var(--bg-base)] transition-none active:translate-y-1 active:border-b-[4px] active:border-r-[4px] no-underline"
-                >
-                  <Code2 size={16} />
-                  SOURCE_CODE
-                </a>
-              )}
-              {project.links.live && (
-                <a
-                  href={project.links.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 font-mono text-[var(--text-primary)] bg-[var(--bg-panel)] border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] hover:bg-[var(--accent-yellow)] hover:text-[var(--bg-base)] transition-none active:translate-y-1 active:border-b-[4px] active:border-r-[4px] no-underline"
-                >
-                  <ExternalLink size={16} />
-                  DEPLOYMENT
-                </a>
-              )}
-              {project.links.docs && (
-                <a
-                  href={project.links.docs}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 font-mono text-[var(--text-primary)] bg-[var(--bg-panel)] border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] hover:bg-[var(--accent-pink)] hover:text-[var(--bg-base)] transition-none active:translate-y-1 active:border-b-[4px] active:border-r-[4px] no-underline"
-                >
-                  <FileText size={16} />
-                  READ_DOCS
-                </a>
-              )}
-            </div>
+          {/* ── Highlights ── */}
+          {project.highlights && project.highlights.length > 0 && (
+            <>
+              <div className="px-divider" />
+              <motion.section
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.5 }}
+                className="py-10"
+                aria-label="Key Highlights"
+              >
+                <span className="section-label text-[var(--accent-primary)] mb-6 block">
+                  Highlights
+                </span>
+                <ul className="space-y-3">
+                  {project.highlights.map((hl, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 + i * 0.07 }}
+                      className="flex items-start gap-3 text-[var(--text-secondary)]
+                                 leading-relaxed"
+                      style={{ fontSize: 'clamp(0.9rem, 0.85rem + 0.2vw, 1rem)' }}
+                    >
+                      <span className="mt-[0.35em] w-2 h-2 flex-shrink-0
+                                       pixel-decoration bg-[var(--accent-primary)]" />
+                      {hl}
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.section>
+            </>
           )}
+
+          {/* ── Links ── */}
+          {project.links && (
+            <>
+              <div className="px-divider" />
+              <motion.section
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.5 }}
+                className="py-10 flex flex-wrap gap-4"
+                aria-label="Project Links"
+              >
+                {project.links.github && project.links.github !== '#' && (
+                  <Button
+                    href={project.links.github}
+                    variant="outline"
+                    external
+                    arrow={false}
+                  >
+                    <GitBranch size={15} />
+                    Source Code
+                  </Button>
+                )}
+                {project.links.live && project.links.live !== '#' && (
+                  <Button
+                    href={project.links.live}
+                    variant="primary"
+                    external
+                  >
+                    <ExternalLink size={15} />
+                    Live Demo
+                  </Button>
+                )}
+                {project.links.docs && (
+                  <Button
+                    href={project.links.docs}
+                    variant="outline"
+                    external
+                    arrow={false}
+                  >
+                    <FileText size={15} />
+                    Documentation
+                  </Button>
+                )}
+              </motion.section>
+            </>
+          )}
+
         </div>
-      </section>
+      </article>
     </div>
   );
 }

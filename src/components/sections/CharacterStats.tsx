@@ -1,133 +1,145 @@
 import { motion } from 'motion/react';
-import { skillCategories } from '@/data/skills';
+import { techStack } from '@/data/skills';
 
-/**
- * Skills Section — Visual Skill Ecosystem
- * Removes RPG stat bars and fake percentages
- * Uses modern interactive presentation with categories
- */
+/* ─────────────────────────────────────────────
+   Tech Stack Section — Compact & Subordinate
+   
+   Purpose: show supporting technologies without
+   overshadowing the Projects section.
+   
+   Visual pattern:
+     - Section label (pixel font)
+     - Short heading
+     - One-line tagline
+     - Five groups rendered as compact px-tag rows
+     - No big cards, no fake percentages
+   ───────────────────────────────────────────── */
+
 export function CharacterStats() {
   return (
-    <section id="skills" className="section-spacing bg-[var(--bg-elevated)] relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent-violet)] opacity-5 blur-3xl rounded-full" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--accent-primary)] opacity-5 blur-3xl rounded-full" />
+    <section
+      id="skills"
+      className="relative overflow-hidden"
+      style={{ paddingBlock: 'clamp(3rem, 8vh, 6rem)' }}
+    >
+      {/* Subtle background tint */}
+      <div className="absolute inset-0 bg-[var(--bg-elevated)] opacity-40 pointer-events-none" />
+
+      {/* Pixel dot grid accent — top edge */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-0 right-0 h-px
+                   bg-gradient-to-r from-transparent
+                   via-[var(--accent-primary)]/30 to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute bottom-0 left-0 right-0 h-px
+                   bg-gradient-to-r from-transparent
+                   via-[var(--accent-secondary)]/20 to-transparent"
+      />
 
       <div className="container-observatory relative z-10">
-        
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-3 h-3 pixel-decoration bg-[var(--accent-secondary)]" />
-            <span className="font-mono text-xs md:text-sm text-[var(--accent-secondary)] uppercase tracking-widest">
-              Skills & Technologies
-            </span>
-            <div className="w-3 h-3 pixel-decoration bg-[var(--accent-secondary)]" />
-          </div>
 
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-[var(--text-primary)] mb-6">
-            Technical
-            <span className="block bg-gradient-to-r from-[var(--accent-primary)] via-[var(--accent-secondary)] to-[var(--accent-violet)] bg-clip-text text-transparent">
-              Expertise
-            </span>
-          </h2>
+        {/* ── Header ── */}
+        <div className="flex flex-col sm:flex-row sm:items-end
+                        justify-between gap-6 mb-10">
+          <div>
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="section-label text-[var(--accent-secondary)] mb-4 block"
+            >
+              Tech Stack
+            </motion.span>
 
-          <p className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto">
-            A curated selection of technologies and tools I work with regularly
-          </p>
-        </motion.div>
-
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={category.id}
-              initial={{ opacity: 0, y: 30 }}
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
-              className="group"
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display font-bold text-[var(--text-primary)]
+                         leading-tight tracking-tight"
+              style={{ fontSize: 'clamp(1.8rem, 3vw + 0.5rem, 2.8rem)' }}
             >
-              {/* Category Card */}
-              <div className="relative p-8 bg-[var(--bg-base)] border border-white/5 rounded-xl hover:border-white/10 transition-all h-full">
-                {/* Glow effect on hover */}
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity rounded-xl blur-xl"
-                  style={{ backgroundColor: category.color }}
+              Tools I Work With
+            </motion.h2>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="font-body text-[var(--text-faint)] text-sm max-w-[32ch] sm:text-right"
+          >
+            Supporting technologies — projects provide the real proof.
+          </motion.p>
+        </div>
+
+        {/* ── Tech groups ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          {techStack.map((group, gi) => (
+            <motion.div
+              key={group.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                delay: gi * 0.06,
+                duration: 0.45,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="space-y-3"
+            >
+              {/* Group label */}
+              <div className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="w-[3px] h-3 pixel-decoration"
+                  style={{ background: group.color }}
                 />
+                <span
+                  className="font-pixel text-[10px] tracking-widest uppercase"
+                  style={{ color: group.color }}
+                >
+                  {group.label}
+                </span>
+              </div>
 
-                {/* Category Header */}
-                <div className="relative z-10 mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 
-                      className="font-display text-2xl font-bold transition-colors"
-                      style={{ color: category.color }}
-                    >
-                      {category.label}
-                    </h3>
-                    <motion.div
-                      className="w-3 h-3 pixel-decoration"
-                      style={{ backgroundColor: category.color }}
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: categoryIndex * 0.3 }}
-                    />
-                  </div>
-                  <div 
-                    className="h-1 w-12 rounded-full"
-                    style={{ backgroundColor: category.color }}
-                  />
-                </div>
-
-                {/* Skills List */}
-                <div className="relative z-10 space-y-3">
-                  {category.skills.map((skill, skillIndex) => (
-                    <motion.div
-                      key={skill.name}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: (categoryIndex * 0.1) + (skillIndex * 0.05) }}
-                      whileHover={{ x: 5 }}
-                      className="flex items-center gap-3 group/skill"
-                    >
-                      <div 
-                        className="w-2 h-2 pixel-decoration opacity-50 group-hover/skill:opacity-100 transition-opacity"
-                        style={{ backgroundColor: category.color }}
-                      />
-                      <span className="text-[var(--text-secondary)] group-hover/skill:text-[var(--text-primary)] transition-colors font-body text-sm md:text-base">
-                        {skill.name}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Decorative corner pixel */}
-                <div 
-                  className="absolute bottom-4 right-4 w-2 h-2 pixel-decoration opacity-30"
-                  style={{ backgroundColor: category.color }}
-                />
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                {group.tools.map((tool, ti) => (
+                  <motion.span
+                    key={tool}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: gi * 0.06 + ti * 0.04 }}
+                    whileHover={{ y: -2 }}
+                    className="px-tag cursor-default"
+                  >
+                    {tool}
+                  </motion.span>
+                ))}
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Additional Context */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        {/* Footer note */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="mt-16 text-center"
+          className="mt-10 font-mono text-[11px] tracking-widest
+                     text-[var(--text-faint)] text-center uppercase"
         >
-          <p className="text-[var(--text-tertiary)] text-sm font-mono">
-            Always learning • Always building • Always improving
-          </p>
-        </motion.div>
+          Always learning&ensp;·&ensp;Always building&ensp;·&ensp;Always improving
+        </motion.p>
+
       </div>
     </section>
   );

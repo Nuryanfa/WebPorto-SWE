@@ -2,54 +2,29 @@ import { type ReactNode, type ButtonHTMLAttributes } from 'react';
 import { motion } from 'motion/react';
 
 /* ─────────────────────────────────────────────
-   Button — Pixel-Corner CTA System
+   Button — Pixel-Art CTA System
 
    Variants:
-     primary  — hot-pink filled, stepped clip-path corner, pixel arrow
-     outline  — cyan border, pixel corner brackets on hover, pixel arrow
-     ghost    — bare text link with animated underline + pixel arrow
+     primary  — hot-pink filled, 4px offset pixel shadow, arrow
+     outline  — transparent, cyan border, arrow
+     ghost    — bare text link, underline sweep, arrow
 
-   Architecture note:
-   Each variant is a self-contained motion element.
-   No nested flex-span wrappers that could overflow their parent.
+   Key rules:
+   • NO clip-path — causes text to paint outside visible area
+   • Shimmer starts opacity:0 so text is always visible at rest
+   • Single flex container owns all layout — no nested flex spans
    ───────────────────────────────────────────── */
 
-type ButtonVariant = 'primary' | 'outline' | 'ghost';
+export type ButtonVariant = 'primary' | 'outline' | 'ghost';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:  ButtonVariant;
-  children:  ReactNode;
-  href?:     string;
-  arrow?:    boolean;
-  external?: boolean;
+  variant?:   ButtonVariant;
+  children:   ReactNode;
+  href?:      string;
+  arrow?:     boolean;
+  external?:  boolean;
   className?: string;
 }
-
-const BASE =
-  'inline-flex items-center gap-2.5 cursor-pointer select-none ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-secondary)] ' +
-  'font-display font-bold text-sm tracking-wide uppercase whitespace-nowrap';
-
-const STYLES: Record<ButtonVariant, string> = {
-  primary:
-    'relative overflow-hidden px-6 py-3 ' +
-    'bg-[var(--accent-primary)] text-white ' +
-    '[clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)] ' +
-    'shadow-[3px_3px_0_var(--pixel-border-dark)] ' +
-    'hover:shadow-[5px_5px_0_var(--pixel-border-dark)] ' +
-    'active:shadow-[1px_1px_0_var(--pixel-border-dark)] ' +
-    'active:translate-x-[2px] active:translate-y-[2px] ' +
-    'transition-shadow duration-[var(--duration-fast)]',
-
-  outline:
-    'relative px-6 py-3 ' +
-    'bg-transparent border border-[var(--accent-secondary)] text-[var(--accent-secondary)] ' +
-    '[clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,0_100%)] ' +
-    'hover:bg-[rgba(0,245,255,0.06)] ' +
-    'transition-colors duration-[var(--duration-fast)]',
-
-  ghost: 'relative bg-transparent p-0 text-[var(--accent-primary)]',
-};
 
 export function Button({
   variant   = 'primary',
@@ -60,55 +35,57 @@ export function Button({
   className = '',
   ...props
 }: ButtonProps) {
-  const showArrow = arrow ?? (variant !== 'ghost');
-  const cls       = `${BASE} ${STYLES[variant]} ${className}`.replace(/\s+/g, ' ').trim();
-  const anchorExt = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+  const showArrow = arrow ?? variant !== 'ghost';
 
-  /* Shared inner content — same for <a> and <button> */
-  const content = (
+  const inner = (
     <>
-      {/* Primary: shimmer overlay */}
+      {/* ── Shimmer (primary only) — starts invisible ── */}
       {variant === 'primary' && (
         <motion.span
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none"
+          className="pointer-events-none absolute inset-0
+                     bg-gradient-to-r from-transparent via-white/20 to-transparent"
           variants={{
-            idle:  { x: '-100%' },
-            hover: { x: '220%', transition: { duration: 0.55, ease: 'easeInOut' } },
-            tap:   { x: '-100%' },
+            idle:  { opacity: 0, x: '-60%' },
+            hover: { opacity: 1, x: '160%',
+                     transition: { duration: 0.5, ease: 'easeInOut' } },
+            tap:   { opacity: 0, x: '-60%' },
           }}
         />
       )}
 
-      {/* Outline: pixel corner brackets */}
+      {/* ── Outline corner brackets — appear on hover ── */}
       {variant === 'outline' && (
         <>
           <motion.span
             aria-hidden="true"
-            className="absolute top-0 left-0 w-[10px] h-[10px] border-t-2 border-l-2 border-[var(--accent-secondary)] pointer-events-none"
+            className="pointer-events-none absolute top-[-2px] left-[-2px]
+                       w-3 h-3 border-t-2 border-l-2 border-[var(--accent-secondary)]"
             variants={{
-              idle:  { opacity: 0, scale: 0.5 },
-              hover: { opacity: 1, scale: 1, transition: { duration: 0.15 } },
+              idle:  { opacity: 0 },
+              hover: { opacity: 1, transition: { duration: 0.12 } },
               tap:   { opacity: 1 },
             }}
           />
           <motion.span
             aria-hidden="true"
-            className="absolute bottom-0 right-0 w-[10px] h-[10px] border-b-2 border-r-2 border-[var(--accent-secondary)] pointer-events-none"
+            className="pointer-events-none absolute bottom-[-2px] right-[-2px]
+                       w-3 h-3 border-b-2 border-r-2 border-[var(--accent-secondary)]"
             variants={{
-              idle:  { opacity: 0, scale: 0.5 },
-              hover: { opacity: 1, scale: 1, transition: { duration: 0.15 } },
+              idle:  { opacity: 0 },
+              hover: { opacity: 1, transition: { duration: 0.12 } },
               tap:   { opacity: 1 },
             }}
           />
         </>
       )}
 
-      {/* Ghost: underline sweep */}
+      {/* ── Ghost underline sweep ── */}
       {variant === 'ghost' && (
         <motion.span
           aria-hidden="true"
-          className="absolute bottom-px left-0 right-0 h-px bg-[var(--accent-primary)] origin-left pointer-events-none"
+          className="pointer-events-none absolute bottom-0 left-0 right-0
+                     h-px bg-[var(--accent-primary)] origin-left"
           variants={{
             idle:  { scaleX: 0 },
             hover: { scaleX: 1, transition: { duration: 0.2, ease: 'easeOut' } },
@@ -117,27 +94,25 @@ export function Button({
         />
       )}
 
-      {/* Label — always visible, always on top */}
-      <span className="relative z-10">{children}</span>
+      {/* ── Label — always visible ── */}
+      <span className="relative z-10 leading-none">{children}</span>
 
-      {/* Pixel arrow */}
+      {/* ── Pixel arrow ── */}
       {showArrow && (
         <motion.span
           aria-hidden="true"
-          className="relative z-10 flex items-center flex-shrink-0"
+          className="relative z-10 flex-shrink-0 flex items-center"
           variants={{
             idle:  { x: 0 },
-            hover: { x: variant === 'ghost' ? 5 : 4, transition: { duration: 0.2, ease: 'easeOut' } },
+            hover: { x: 4, transition: { duration: 0.18, ease: 'easeOut' } },
             tap:   { x: 2 },
           }}
         >
           <PixelArrow
             color={
-              variant === 'primary'
-                ? 'white'
-                : variant === 'outline'
-                ? 'var(--accent-secondary)'
-                : 'var(--accent-primary)'
+              variant === 'primary'  ? 'white'
+              : variant === 'outline' ? 'var(--accent-secondary)'
+              : 'var(--accent-primary)'
             }
           />
         </motion.span>
@@ -145,17 +120,55 @@ export function Button({
     </>
   );
 
+  /* ── Variant class map ── */
+  const variantCls: Record<ButtonVariant, string> = {
+    primary: [
+      'bg-[var(--accent-primary)] text-white',
+      'shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]',
+      'hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]',
+      'hover:translate-x-[2px] hover:translate-y-[2px]',
+      'active:shadow-none active:translate-x-[4px] active:translate-y-[4px]',
+      'transition-all duration-100',
+    ].join(' '),
+
+    outline: [
+      'bg-transparent text-[var(--accent-secondary)]',
+      'border-2 border-[var(--accent-secondary)]',
+      'hover:bg-[var(--accent-secondary)]/10',
+      'transition-colors duration-150',
+    ].join(' '),
+
+    ghost: [
+      'bg-transparent text-[var(--accent-primary)]',
+    ].join(' '),
+  };
+
+  const cls = [
+    /* base */
+    'relative overflow-hidden',
+    'inline-flex items-center gap-2',
+    'font-display font-bold text-sm tracking-wide uppercase',
+    'whitespace-nowrap cursor-pointer select-none',
+    variant !== 'ghost' ? 'px-5 py-2.5' : 'px-0 py-0',
+    'focus-visible:outline-2 focus-visible:outline-offset-4',
+    'focus-visible:outline-[var(--accent-secondary)]',
+    /* variant */
+    variantCls[variant],
+    /* caller override */
+    className,
+  ].join(' ').replace(/\s+/g, ' ').trim();
+
   if (href) {
     return (
       <motion.a
         href={href}
-        {...anchorExt}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         whileHover="hover"
         whileTap="tap"
         initial="idle"
         className={cls}
       >
-        {content}
+        {inner}
       </motion.a>
     );
   }
@@ -169,29 +182,28 @@ export function Button({
       className={cls}
       {...(props as object)}
     >
-      {content}
+      {inner}
     </motion.button>
   );
 }
 
-/* ── Pixel Arrow ────────────────────────────
-   SVG drawn on a 4-px grid — crisp at any size.
-   ─────────────────────────────────────────── */
+/* ── Pixel Arrow SVG ── */
 function PixelArrow({ color }: { color: string }) {
   return (
     <svg
-      width="16"
-      height="10"
-      viewBox="0 0 16 10"
+      width="14" height="9"
+      viewBox="0 0 14 9"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       style={{ imageRendering: 'pixelated', display: 'block' }}
     >
-      <rect x="0"  y="4" width="10" height="2" fill={color} />
-      <rect x="10" y="4" width="2"  height="2" fill={color} />
-      <rect x="12" y="2" width="2"  height="6" fill={color} />
-      <rect x="14" y="0" width="2"  height="10" fill={color} />
+      {/* shaft */}
+      <rect x="0" y="3" width="9"  height="2" fill={color} />
+      {/* stepped arrowhead */}
+      <rect x="9"  y="3" width="2" height="2" fill={color} />
+      <rect x="11" y="1" width="2" height="6" fill={color} />
+      <rect x="13" y="0" width="1" height="9" fill={color} />
     </svg>
   );
 }

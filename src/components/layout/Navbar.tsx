@@ -39,15 +39,13 @@ export function Navbar() {
    *  - any other     → exact pathname match to avoid false positives
    */
   const isActive = (href: string) => {
-    if (href === '/') return location.pathname === '/';
+    if (href === '/') return location.pathname === '/' && !location.hash;
 
-    // Hash links (e.g. '/#experience') are active only on the home page
-    if (href.startsWith('/#')) return location.pathname === '/';
+    // Hash links active only when pathname === '/' AND hash matches
+    if (href.startsWith('/#')) return location.pathname === '/' && location.hash === '#' + href.split('#')[1];
 
-    // /projects should also highlight when on /projects/:slug
     if (href === '/projects') return location.pathname.startsWith('/projects');
 
-    // Everything else: exact match
     return location.pathname === href;
   };
 
@@ -75,7 +73,7 @@ export function Navbar() {
       const el = document.getElementById(hash);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        window.history.replaceState(null, '', href);
+        window.history.replaceState(null, '', `/${hash ? '#' + hash : ''}`);
       }
     };
 

@@ -1,95 +1,72 @@
-import { FocusPullReveal } from '@/components/motion/FocusPullReveal';
-import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
-import { OrbitalSkills } from '@/components/sections/OrbitalSkills';
+import { AboutPreview } from '@/components/sections/AboutPreview';
+import { CharacterStats } from '@/components/sections/CharacterStats';
 import { Timeline } from '@/components/sections/Timeline';
 
 /**
- * About page — full profile, orbital skills, timeline.
+ * About page — deep dive into background, skills, and timeline.
  */
 export default function About() {
   return (
     <div className="pt-[var(--nav-height)]">
-      {/* About Header */}
       <section className="section-spacing">
-        <div className="container-observatory max-w-3xl">
-          <FocusPullReveal>
-            <SectionEyebrow index="01" label="ABOUT" />
-          </FocusPullReveal>
+        <div className="container-observatory">
+          
+          <div className="font-mono text-sm tracking-widest text-[var(--text-faint)] mb-4">
+            [ MENU: SYSTEM OVERVIEW ]
+          </div>
 
-          <FocusPullReveal delay={0.1}>
+          <div>
             <h1
-              className="text-[var(--text-star)] mb-6"
+              className="text-[var(--accent-cyan)] mb-3 font-display glitch uppercase"
               style={{ fontSize: 'var(--text-2xl)' }}
+              data-text="System Overview"
             >
-              Observer Profile
+              System Overview
             </h1>
-          </FocusPullReveal>
-
-          {/* Avatar + Identity */}
-          <FocusPullReveal delay={0.2}>
-            <div className="flex items-start gap-6 mb-10">
-              {/* Geometric avatar placeholder */}
-              <div
-                className="w-20 h-20 flex items-center justify-center font-[family-name:var(--font-display)] text-2xl font-bold text-[var(--accent-nebula)] border border-[var(--accent-nebula)] [clip-path:var(--clip-angular)] flex-shrink-0"
-                style={{ backgroundColor: 'var(--accent-nebula-dim)' }}
-                aria-label="Nur Yanfa initials"
-              >
-                NY
-              </div>
-              <div>
-                <h2 className="text-[var(--text-star)] text-lg mb-1 normal-case">
-                  Nur Yanfa
-                </h2>
-                <div className="font-[family-name:var(--font-mono)] text-xs text-[var(--accent-nebula)] tracking-wider mb-2">
-                  CLASSIFICATION: CYBERSECURITY &amp; SOFTWARE ENGINEER
-                </div>
-                <div className="font-[family-name:var(--font-mono)] text-xs text-[var(--text-faint)] tracking-wider">
-                  COORD: INDONESIA · MAGNITUDE: UNDERGRADUATE
-                </div>
-              </div>
-            </div>
-          </FocusPullReveal>
-
-          {/* Bio paragraphs */}
-          <FocusPullReveal delay={0.3}>
-            <div className="space-y-6">
-              <div className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-[var(--text-faint)]">
-                LOG_ENTRY // 001 · EXTENDED OBSERVATION
-              </div>
-
-              <p className="text-[var(--text-dim)] leading-relaxed normal-case">
-                Informatics Engineering undergraduate with a focused trajectory in{' '}
-                <span className="text-[var(--accent-nebula)] font-medium">
-                  cybersecurity
-                </span>{' '}
-                and{' '}
-                <span className="text-[var(--accent-nebula)] font-medium">
-                  network defense
-                </span>
-                . Currently developing a Purple Team Exercise Framework as thesis
-                research — a structured approach to bridging offensive and defensive
-                security operations through repeatable, measurable assessments.
-              </p>
-
-              <p className="text-[var(--text-dim)] leading-relaxed normal-case">
-                The core belief driving this work: understanding how systems break is the
-                prerequisite for building systems that hold. This applies equally to network
-                infrastructure, application security, and software architecture.
-              </p>
-
-              <p className="text-[var(--text-dim)] leading-relaxed normal-case">
-                Beyond the security domain, experienced in web application development,
-                network administration, containerized environments, and database systems.
-                Approaching each discipline with the same methodical precision — mapping
-                the problem space before engineering solutions.
-              </p>
-            </div>
-          </FocusPullReveal>
+            <p className="text-[var(--text-secondary)] mb-4 normal-case font-mono tracking-wider max-w-3xl">
+              Initialization sequence complete. Displaying core operational parameters, 
+              hardware specifications, and active subroutine history.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Full Orbital Skills Diagram */}
-      <OrbitalSkills />
+      {/* Main Stats (Bio) */}
+      <AboutPreview />
+      
+      {/* Detailed Capabilities */}
+      <CharacterStats />
+
+      {/* Origin Data */}
+      <section className="section-spacing bg-[var(--bg-void)] border-y-4 border-[var(--pixel-border-dark)]">
+        <div className="container-observatory">
+          <div className="mb-10">
+            <h2 className="text-[var(--accent-pink)] mb-3 font-display glitch uppercase" data-text="Origin Data">
+              Origin Data
+            </h2>
+          </div>
+          
+          <div className="max-w-3xl text-[var(--text-secondary)] font-mono leading-relaxed space-y-6 border-l-4 border-[var(--accent-purple)] pl-6">
+            <p>
+              I am a Software Engineer and Cybersecurity Specialist with a strong 
+              foundation in modern web technologies and secure system architecture. 
+              My expertise lies in building resilient applications that not only perform 
+              optimally but are hardened against contemporary threats.
+            </p>
+            <p>
+              With experience spanning from offensive security frameworks (Purple Team) 
+              to robust full-stack development, I approach engineering with a "security-first" 
+              mindset. I believe that elegant code and bulletproof infrastructure are not 
+              mutually exclusive.
+            </p>
+            <p>
+              Currently expanding my capabilities in Zero-Trust architecture and automated 
+              threat intelligence pipelines, always seeking to bridge the gap between 
+              innovative development and rigorous security practices.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Full Timeline */}
       <Timeline />

@@ -1,7 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { FocusPullReveal } from '@/components/motion/FocusPullReveal';
-import { DesignationLabel } from '@/components/ui/DesignationLabel';
-import { Panel } from '@/components/ui/Panel';
+import { PixelWindow } from '@/components/pixel/PixelWindow';
 import { Button } from '@/components/ui/Button';
 import { projects } from '@/data/projects';
 import { ArrowLeft, ExternalLink, Code2, FileText } from 'lucide-react';
@@ -17,20 +15,17 @@ export default function ProjectDetail() {
     return (
       <div className="pt-[var(--nav-height)] section-spacing">
         <div className="container-observatory text-center">
-          <div className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] text-[var(--text-faint)] mb-6 uppercase">
-            ERROR · OBJECT NOT FOUND
+          <div className="font-mono text-xs tracking-[0.25em] text-[var(--text-faint)] mb-6 uppercase">
+            [ ERROR_404 ]
           </div>
-          <h1
-            className="text-[var(--text-star)] mb-6"
-            style={{ fontSize: 'var(--text-2xl)' }}
-          >
-            Signal Lost
+          <h1 className="text-[var(--accent-pink)] mb-6 font-display glitch" data-text="GAME OVER">
+            GAME OVER
           </h1>
-          <p className="text-[var(--text-dim)] mb-8">
-            The requested catalog entry could not be located in the registry.
+          <p className="text-[var(--text-secondary)] font-mono mb-8">
+            The requested mission data could not be located in the save file.
           </p>
-          <Button variant="solid" href="/projects">
-            Return to Catalog
+          <Button variant="solid" href="/projects" className="border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] bg-[var(--accent-cyan)] text-[var(--bg-base)]">
+            CONTINUE ?
           </Button>
         </div>
       </div>
@@ -40,153 +35,134 @@ export default function ProjectDetail() {
   return (
     <div className="pt-[var(--nav-height)]">
       <section className="section-spacing">
-        <div className="container-observatory max-w-3xl">
+        <div className="container-observatory max-w-4xl">
           {/* Back link */}
-          <FocusPullReveal>
-            <Link
-              to="/projects"
-              className="inline-flex items-center gap-2 text-[var(--text-faint)] hover:text-[var(--accent-nebula)] transition-colors text-sm mb-8 no-underline"
-            >
-              <ArrowLeft size={14} />
-              <span className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase">
-                Back to Catalog
-              </span>
-            </Link>
-          </FocusPullReveal>
+          <Link
+            to="/projects"
+            className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-yellow)] transition-colors text-sm mb-8 no-underline font-mono uppercase bg-[var(--bg-panel)] px-3 py-1 border-2 border-[var(--pixel-border-dark)]"
+          >
+            <ArrowLeft size={14} />
+            <span>RETURN TO MENU</span>
+          </Link>
 
           {/* Designation header */}
-          <FocusPullReveal delay={0.1}>
-            <DesignationLabel
-              designation={project.designation}
-              sector={project.sector}
-              className="mb-4"
-            />
-          </FocusPullReveal>
+          <div className="font-mono text-[var(--accent-pink)] tracking-widest uppercase mb-2">
+            [ {project.designation} ] - {project.sector}
+          </div>
 
-          <FocusPullReveal delay={0.15}>
-            <h1
-              className="text-[var(--text-star)] mb-4 normal-case"
-              style={{ fontSize: 'var(--text-2xl)' }}
-            >
-              {project.title}
-            </h1>
-          </FocusPullReveal>
+          <h1
+            className="text-[var(--text-primary)] mb-8 uppercase font-display glitch"
+            style={{ fontSize: 'var(--text-2xl)', textShadow: '4px 4px 0 var(--pixel-border-dark)' }}
+            data-text={project.title}
+          >
+            {project.title}
+          </h1>
 
           {/* Metadata panel */}
-          <FocusPullReveal delay={0.2}>
-            <Panel className="mb-10">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--text-faint)] uppercase mb-1">
-                    MAGNITUDE
-                  </div>
-                  <div className="text-sm text-[var(--text-star)]">
-                    {project.magnitude}
-                  </div>
+          <PixelWindow className="mb-10" title="MISSION_DATA.DAT">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-[var(--bg-base)] p-3 border-2 border-[var(--pixel-border-dark)]">
+                <div className="font-mono text-[10px] tracking-widest text-[var(--accent-cyan)] uppercase mb-2">
+                  MAGNITUDE
                 </div>
-                <div>
-                  <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--text-faint)] uppercase mb-1">
-                    STATUS
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`
-                        w-2 h-2 rounded-full
-                        ${project.status === 'In Progress'
-                          ? 'bg-[var(--accent-solar)]'
-                          : project.status === 'Completed'
-                            ? 'bg-[var(--accent-nebula)]'
-                            : 'bg-[var(--text-faint)]'
-                        }
-                      `}
-                    />
-                    <span className="text-sm text-[var(--text-star)]">
-                      {project.status}
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.2em] text-[var(--text-faint)] uppercase mb-1">
-                    SECTOR
-                  </div>
-                  <div className="text-sm text-[var(--accent-nebula)]">
-                    {project.sector}
-                  </div>
+                <div className="text-sm text-[var(--text-primary)] uppercase font-mono">
+                  {project.magnitude}
                 </div>
               </div>
-            </Panel>
-          </FocusPullReveal>
+              <div className="bg-[var(--bg-base)] p-3 border-2 border-[var(--pixel-border-dark)]">
+                <div className="font-mono text-[10px] tracking-widest text-[var(--accent-yellow)] uppercase mb-2">
+                  STATUS
+                </div>
+                <div className="flex items-center gap-2 uppercase font-mono text-sm text-[var(--text-primary)]">
+                  <span
+                    className={`
+                      w-2 h-2 block animate-pulse
+                      ${project.status === 'In Progress'
+                        ? 'bg-[var(--accent-yellow)]'
+                        : project.status === 'Completed'
+                          ? 'bg-[var(--accent-cyan)]'
+                          : 'bg-[var(--text-faint)]'
+                      }
+                    `}
+                  />
+                  {project.status}
+                </div>
+              </div>
+              <div className="bg-[var(--bg-base)] p-3 border-2 border-[var(--pixel-border-dark)]">
+                <div className="font-mono text-[10px] tracking-widest text-[var(--accent-pink)] uppercase mb-2">
+                  SECTOR
+                </div>
+                <div className="text-sm text-[var(--text-primary)] uppercase font-mono">
+                  {project.sector}
+                </div>
+              </div>
+            </div>
+          </PixelWindow>
 
           {/* Description */}
-          <FocusPullReveal delay={0.25}>
-            <div className="mb-10">
-              <div className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] text-[var(--text-faint)] uppercase mb-4">
-                OBSERVATION NOTES
-              </div>
-              <p className="text-[var(--text-dim)] leading-relaxed normal-case">
-                {project.longDescription || project.description}
-              </p>
+          <div className="mb-12 bg-[var(--bg-panel)] border-4 border-[var(--pixel-border-light)] border-b-[var(--pixel-border-dark)] border-r-[var(--pixel-border-dark)] p-6 shadow-[4px_4px_0_var(--pixel-border-dark)]">
+            <div className="font-mono text-xs tracking-widest text-[var(--accent-cyan)] uppercase mb-4 border-b-2 border-dashed border-[var(--pixel-border-light)] pb-2">
+              &gt; MISSION_BRIEFING
             </div>
-          </FocusPullReveal>
+            <p className="text-[var(--text-secondary)] leading-relaxed font-mono whitespace-pre-wrap">
+              {project.longDescription || project.description}
+            </p>
+          </div>
 
           {/* Tech Stack */}
-          <FocusPullReveal delay={0.3}>
-            <div className="mb-10">
-              <div className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] text-[var(--text-faint)] uppercase mb-4">
-                INSTRUMENTATION
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1.5 text-xs font-[family-name:var(--font-mono)] tracking-wider text-[var(--text-dim)] bg-[var(--bg-elevated)] border border-[var(--line-hairline)] [clip-path:var(--clip-angular-sm)]"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
+          <div className="mb-12">
+            <div className="font-display text-sm tracking-widest text-[var(--accent-yellow)] uppercase mb-6">
+              EQUIPPED_GEAR
             </div>
-          </FocusPullReveal>
+            <div className="flex flex-wrap gap-3">
+              {project.techStack.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-3 py-1.5 text-xs font-mono tracking-wider text-[var(--text-primary)] bg-[var(--bg-elevated)] border-2 border-[var(--pixel-border-dark)] hover:bg-[var(--accent-pink)] transition-colors cursor-default"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
 
           {/* Links */}
           {project.links && (
-            <FocusPullReveal delay={0.35}>
-              <div className="flex flex-wrap gap-4">
-                {project.links.github && (
-                  <a
-                    href={project.links.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 text-sm text-[var(--text-dim)] hover:text-[var(--accent-nebula)] border border-[var(--line-hairline)] hover:border-[var(--accent-nebula)] transition-all no-underline"
-                  >
-                    <Code2 size={14} />
-                    Source Code
-                  </a>
-                )}
-                {project.links.live && (
-                  <a
-                    href={project.links.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 text-sm text-[var(--text-dim)] hover:text-[var(--accent-nebula)] border border-[var(--line-hairline)] hover:border-[var(--accent-nebula)] transition-all no-underline"
-                  >
-                    <ExternalLink size={14} />
-                    Live Demo
-                  </a>
-                )}
-                {project.links.docs && (
-                  <a
-                    href={project.links.docs}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 text-sm text-[var(--text-dim)] hover:text-[var(--accent-nebula)] border border-[var(--line-hairline)] hover:border-[var(--accent-nebula)] transition-all no-underline"
-                  >
-                    <FileText size={14} />
-                    Documentation
-                  </a>
-                )}
-              </div>
-            </FocusPullReveal>
+            <div className="flex flex-wrap gap-4 pt-6 border-t-4 border-[var(--pixel-border-dark)]">
+              {project.links.github && (
+                <a
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 font-mono text-[var(--text-primary)] bg-[var(--bg-panel)] border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] hover:bg-[var(--accent-cyan)] hover:text-[var(--bg-base)] transition-none active:translate-y-1 active:border-b-[4px] active:border-r-[4px] no-underline"
+                >
+                  <Code2 size={16} />
+                  SOURCE_CODE
+                </a>
+              )}
+              {project.links.live && (
+                <a
+                  href={project.links.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 font-mono text-[var(--text-primary)] bg-[var(--bg-panel)] border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] hover:bg-[var(--accent-yellow)] hover:text-[var(--bg-base)] transition-none active:translate-y-1 active:border-b-[4px] active:border-r-[4px] no-underline"
+                >
+                  <ExternalLink size={16} />
+                  DEPLOYMENT
+                </a>
+              )}
+              {project.links.docs && (
+                <a
+                  href={project.links.docs}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 font-mono text-[var(--text-primary)] bg-[var(--bg-panel)] border-[4px] border-b-[8px] border-r-[8px] border-[var(--pixel-border-dark)] hover:bg-[var(--accent-pink)] hover:text-[var(--bg-base)] transition-none active:translate-y-1 active:border-b-[4px] active:border-r-[4px] no-underline"
+                >
+                  <FileText size={16} />
+                  READ_DOCS
+                </a>
+              )}
+            </div>
           )}
         </div>
       </section>

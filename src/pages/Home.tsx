@@ -1,6 +1,6 @@
 import { Hero } from '@/components/sections/Hero';
 import { AboutPreview } from '@/components/sections/AboutPreview';
-import { OrbitalSkills } from '@/components/sections/OrbitalSkills';
+import { CharacterStats } from '@/components/sections/CharacterStats';
 import { ProjectCatalog } from '@/components/sections/ProjectCatalog';
 import { Timeline } from '@/components/sections/Timeline';
 import { Contact } from '@/components/sections/Contact';
@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <Hero />
       <AboutPreview />
-      <OrbitalSkills />
+      <CharacterStats />
       <ProjectCatalog showViewAll />
       <Timeline />
       <Contact />

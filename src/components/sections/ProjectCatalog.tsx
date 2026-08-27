@@ -1,193 +1,234 @@
-import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { FocusPullReveal } from '@/components/motion/FocusPullReveal';
-import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
-import { Panel } from '@/components/ui/Panel';
-import { DesignationLabel } from '@/components/ui/DesignationLabel';
 import { Button } from '@/components/ui/Button';
 import { projects } from '@/data/projects';
-import { staggerContainer, slideUp } from '@/lib/motionVariants';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { useTilt3D } from '@/hooks/useTilt3D';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ExternalLink, GitBranch } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ProjectCatalogProps {
-  /** Show only featured projects (for landing page preview) */
-  featuredOnly?: boolean;
-  /** Show "View All" button at bottom */
   showViewAll?: boolean;
 }
 
 /**
- * Project Catalog — "Catalog Entries" (PRD §6.4)
- * 
- * Each project is a catalog entry with designation number,
- * sector, magnitude, and status — all in consistent format.
- * Featured projects highlighted with accent-solar.
+ * Projects — Editorial Asymmetric Layout
+ * Removes mission board/terminal aesthetic
+ * Uses varied project card compositions with sophisticated interactions
  */
-export function ProjectCatalog({
-  featuredOnly = false,
-  showViewAll = false,
-}: ProjectCatalogProps) {
-  const prefersReduced = useReducedMotion();
+export function ProjectCatalog({ showViewAll = false }: ProjectCatalogProps) {
+  const displayProjects = showViewAll ? projects.slice(0, 3) : projects;
 
-  const displayProjects = featuredOnly
-    ? projects.filter((p) => p.featured)
-    : projects;
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'In Progress': return 'var(--accent-acid)';
+      case 'Completed': return 'var(--accent-secondary)';
+      default: return 'var(--accent-violet)';
+    }
+  };
 
   return (
-    <section id="projects" className="section-spacing">
-      <div className="container-observatory">
-        <div className="relative max-w-xl mb-12">
-          {/* Glass panel — gradient fade */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              inset: '-3rem -2rem -3rem -2rem',
-              background: 'radial-gradient(ellipse at 20% 50%, rgba(8,10,18,0.85) 40%, rgba(8,10,18,0.4) 75%, transparent 100%)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              zIndex: -1,
-            }}
-          />
-          <FocusPullReveal>
-            <SectionEyebrow index="03" label="PROJECTS" />
-          </FocusPullReveal>
+    <section id="projects" className="section-spacing relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-1/4 left-0 w-72 h-72 bg-[var(--accent-primary)] opacity-5 blur-3xl rounded-full" />
+      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-[var(--accent-violet)] opacity-5 blur-3xl rounded-full" />
 
-          <FocusPullReveal delay={0.1}>
-            <h2
-              className="font-bold uppercase mb-3"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(2rem, 4vw, 3.5rem)',
-                letterSpacing: '-0.02em',
-                lineHeight: 1.05,
-                background: 'linear-gradient(135deg, #EDEFF7 0%, #9AA4C0 60%, #7C6FF0 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              Catalog Entries
-            </h2>
-            <p className="text-sm font-mono tracking-wider" style={{ color: 'var(--text-faint)', letterSpacing: '0.15em' }}>
-              OBSERVED OBJECTS · {projects.length} ENTRIES CATALOGUED
-            </p>
-          </FocusPullReveal>
-        </div>
-
-        {/* Project Grid */}
+      <div className="container-observatory relative z-10">
+        
+        {/* Section Header */}
         <motion.div
-          variants={prefersReduced ? {} : staggerContainer}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="mb-16"
         >
-          {displayProjects.map((project) => (
-            <motion.div
-              key={project.slug}
-              variants={prefersReduced ? {} : slideUp}
-            >
-              <ProjectCard project={project} />
-            </motion.div>
-          ))}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-3 h-3 pixel-decoration bg-[var(--accent-primary)]" />
+            <span className="font-mono text-xs md:text-sm text-[var(--accent-primary)] uppercase tracking-widest">
+              Selected Work
+            </span>
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-4">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-[var(--text-primary)] leading-tight max-w-2xl">
+              Things I've
+              <span className="block bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">
+                Built
+              </span>
+            </h2>
+
+            <p className="text-[var(--text-secondary)] text-lg max-w-md">
+              A collection of projects showcasing full-stack development, system design, and creative problem-solving.
+            </p>
+          </div>
         </motion.div>
 
-        {/* View All button */}
+        {/* Projects Grid - Asymmetric Editorial Layout */}
+        <div className="space-y-12 lg:space-y-20">
+          {displayProjects.map((project, index) => {
+            const isEven = index % 2 === 0;
+            const statusColor = getStatusColor(project.status);
+
+            return (
+              <motion.article
+                key={project.slug}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className={`group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center ${
+                  isEven ? '' : 'lg:direction-rtl'
+                }`}
+              >
+                {/* Project Visual/Number - Takes up 5 columns */}
+                <div className={`lg:col-span-5 ${isEven ? '' : 'lg:col-start-8'}`}>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                    className="relative aspect-[4/3] bg-[var(--bg-elevated)] border border-white/5 rounded-xl overflow-hidden group-hover:border-white/10 transition-colors"
+                  >
+                    {/* Large designation number as visual element */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <motion.span
+                        className="font-display font-bold text-[12rem] md:text-[16rem] opacity-10 group-hover:opacity-20 transition-opacity"
+                        style={{ color: statusColor }}
+                      >
+                        {project.designation}
+                      </motion.span>
+                    </div>
+
+                    {/* Overlay with tech stack */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-base)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                      <div className="flex flex-wrap gap-2">
+                        {project.techStack.slice(0, 3).map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 bg-[var(--bg-base)]/80 backdrop-blur-sm border border-white/10 rounded-md text-xs font-mono text-[var(--text-secondary)]"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Status indicator */}
+                    <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1 bg-[var(--bg-base)]/80 backdrop-blur-sm border border-white/10 rounded-full">
+                      <motion.div
+                        className="w-2 h-2 rounded-full pixel-decoration"
+                        style={{ backgroundColor: statusColor }}
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <span className="text-xs font-mono" style={{ color: statusColor }}>
+                        {project.status}
+                      </span>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Project Info - Takes up 7 columns */}
+                <div className={`lg:col-span-7 ${isEven ? '' : 'lg:col-start-1 lg:row-start-1 lg:text-right'} space-y-4`}>
+                  {/* Designation & Sector */}
+                  <div className={`flex items-center gap-3 ${isEven ? '' : 'lg:justify-end'}`}>
+                    <span 
+                      className="font-mono text-sm font-bold"
+                      style={{ color: statusColor }}
+                    >
+                      {project.designation}
+                    </span>
+                    <span className="text-[var(--text-faint)]">•</span>
+                    <span className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-widest">
+                      {project.sector}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="font-display font-bold text-3xl md:text-4xl text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
+                    <Link to={`/projects/${project.slug}`}>
+                      {project.title}
+                    </Link>
+                  </h3>
+
+                  {/* Description */}
+                  <p className={`text-[var(--text-secondary)] text-base md:text-lg leading-relaxed max-w-xl ${isEven ? '' : 'lg:ml-auto'}`}>
+                    {project.description}
+                  </p>
+
+                  {/* Tech Stack (full list) */}
+                  <div className={`flex flex-wrap gap-2 pt-2 ${isEven ? '' : 'lg:justify-end'}`}>
+                    {project.techStack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 bg-[var(--bg-elevated)] border border-white/5 rounded-md text-xs font-mono text-[var(--text-tertiary)] hover:text-[var(--text-primary)] hover:border-white/10 transition-colors"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Links */}
+                  <div className={`flex items-center gap-4 pt-4 ${isEven ? '' : 'lg:justify-end'}`}>
+                    <Link
+                      to={`/projects/${project.slug}`}
+                      className="group/link flex items-center gap-2 text-[var(--accent-primary)] font-display font-semibold hover:gap-3 transition-all"
+                    >
+                      View Details
+                      <ArrowRight size={18} />
+                    </Link>
+
+                    {project.links?.github && project.links.github !== '#' && (
+                      <a
+                        href={project.links.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
+                        aria-label="GitHub Repository"
+                      >
+                        <GitBranch size={20} />
+                      </a>
+                    )}
+
+                    {project.links?.live && project.links.live !== '#' && (
+                      <a
+                        href={project.links.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
+                        aria-label="Live Demo"
+                      >
+                        <ExternalLink size={20} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
+        </div>
+
+        {/* View All CTA */}
         {showViewAll && (
-          <FocusPullReveal delay={0.3}>
-            <div className="mt-12 text-center">
-              <Button variant="ghost" href="/projects" icon>
-                View Full Catalog
-              </Button>
-            </div>
-          </FocusPullReveal>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-20 text-center"
+          >
+            <Button
+              href="/projects"
+              className="group px-8 py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-display font-semibold rounded-lg hover:shadow-[0_0_30px_rgba(255,0,110,0.3)] transition-all"
+            >
+              <span className="flex items-center gap-2">
+                View All Projects
+                <motion.span
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ArrowRight size={20} />
+                </motion.span>
+              </span>
+            </Button>
+          </motion.div>
         )}
       </div>
     </section>
   );
 }
-
-function ProjectCard({ project }: { project: any }) {
-  const tilt = useTilt3D();
-
-  return (
-    <Link
-      to={`/projects/${project.slug}`}
-      className="block no-underline group h-full"
-    >
-      <motion.div
-        onMouseMove={tilt.handleMouseMove}
-        onMouseEnter={tilt.handleMouseEnter}
-        onMouseLeave={tilt.handleMouseLeave}
-        style={{
-          rotateX: tilt.rotateX,
-          rotateY: tilt.rotateY,
-          transformStyle: 'preserve-3d',
-          perspective: 1000,
-        }}
-        className="h-full"
-      >
-        <Panel angular glow as="article" className="h-full flex flex-col">
-          {/* Featured badge */}
-          {project.featured && (
-            <div className="absolute top-0 right-0 z-10" style={{ transform: 'translateZ(20px)' }}>
-              <div className="px-3 py-1 bg-[var(--accent-solar-dim)] text-[var(--accent-solar)] font-[family-name:var(--font-mono)] text-[10px] tracking-widest uppercase">
-                ★ FEATURED
-              </div>
-            </div>
-          )}
-
-          <div style={{ transform: 'translateZ(10px)' }} className="flex-1">
-            {/* Designation + Sector */}
-            <DesignationLabel
-              designation={project.designation}
-              sector={project.sector}
-              className="mb-4"
-            />
-
-            {/* Title */}
-            <h3 className="text-[var(--text-star)] text-base font-semibold tracking-wide mb-3 group-hover:text-[var(--accent-nebula)] transition-colors normal-case">
-              {project.title}
-            </h3>
-
-            {/* Description */}
-            <p className="text-sm text-[var(--text-dim)] mb-4 line-clamp-3 normal-case">
-              {project.description}
-            </p>
-          </div>
-
-          {/* Metadata row */}
-          <div className="flex items-center justify-between pt-4 border-t border-[var(--line-hairline)] px-2 mt-auto" style={{ transform: 'translateZ(15px)' }}>
-            <div className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.1em] text-[var(--text-faint)] uppercase pl-2">
-              <span>MAGNITUDE: {project.magnitude}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span
-                className={`
-                  inline-block w-1.5 h-1.5 rounded-full
-                  ${project.status === 'In Progress'
-                    ? 'bg-[var(--accent-solar)]'
-                    : project.status === 'Completed'
-                      ? 'bg-[var(--accent-nebula)]'
-                      : 'bg-[var(--text-faint)]'
-                  }
-                `}
-              />
-              <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-wider text-[var(--text-faint)] uppercase">
-                {project.status}
-              </span>
-            </div>
-          </div>
-
-          {/* Hover indicator */}
-          <div className="absolute bottom-4 right-4 text-[var(--text-faint)] group-hover:text-[var(--accent-nebula)] transition-colors" style={{ transform: 'translateZ(20px)' }}>
-            <ArrowUpRight size={16} />
-          </div>
-        </Panel>
-      </motion.div>
-    </Link>
-  );
-}
-

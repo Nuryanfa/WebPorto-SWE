@@ -1,141 +1,159 @@
-import { FocusPullReveal } from '@/components/motion/FocusPullReveal';
-import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
+import { motion } from 'motion/react';
+import { Code2, Database, Shield, Sparkles } from 'lucide-react';
 
 /**
- * About Preview — "Observation Log Entry" (PRD §6.2)
- * 
- * Displayed as an observation log entry with eyebrow label.
- * Key phrases highlighted in accent-nebula.
+ * About Section — Modern Editorial Design
+ * Removes RPG/Character Select aesthetic
+ * Focuses on real professional information
  */
 export function AboutPreview() {
+  const interests = [
+    { icon: Code2, label: 'Full-Stack Development', color: 'var(--accent-primary)' },
+    { icon: Database, label: 'Backend Architecture', color: 'var(--accent-secondary)' },
+    { icon: Shield, label: 'Security Engineering', color: 'var(--accent-violet)' },
+    { icon: Sparkles, label: 'Creative Frontend', color: 'var(--accent-acid)' },
+  ];
+
   return (
-    <section id="about-preview" className="section-spacing">
-      <div className="container-observatory">
-        <div className="w-full max-w-[680px] px-4 md:px-0 relative">
+    <section id="about" className="section-spacing relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-10 w-32 h-32 bg-[var(--accent-primary)] opacity-10 blur-3xl rounded-full" />
+      <div className="absolute bottom-20 left-10 w-40 h-40 bg-[var(--accent-secondary)] opacity-10 blur-3xl rounded-full" />
 
-          {/* Glass panel — gradient fade, no hard border */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              inset: '-3rem -3rem -4rem -2rem',
-              background: 'radial-gradient(ellipse at 20% 40%, rgba(8,10,18,0.82) 40%, rgba(8,10,18,0.4) 75%, transparent 100%)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              zIndex: -1,
-              borderRadius: '0 40% 40% 0 / 0 60% 60% 0',
-            }}
-          />
+      <div className="container-observatory relative z-10">
+        
+        {/* Section eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex items-center gap-3 mb-6"
+        >
+          <div className="w-3 h-3 pixel-decoration bg-[var(--accent-primary)]" />
+          <span className="font-mono text-xs md:text-sm text-[var(--accent-primary)] uppercase tracking-widest">
+            About Me
+          </span>
+        </motion.div>
 
-          <FocusPullReveal>
-            <SectionEyebrow index="01" label="ABOUT" />
-          </FocusPullReveal>
-
-          <FocusPullReveal delay={0.1}>
-            {/* Log entry eyebrow */}
-            <div
-              className="font-mono text-[10px] tracking-[0.3em] uppercase mb-8 flex items-center gap-3"
-              style={{ color: 'var(--accent-nebula)' }}
-            >
-              <span>◈</span>
-              <span>ENTRY_001</span>
-              <span style={{ color: 'var(--line-hairline-strong)' }}>——</span>
-              <span style={{ color: 'var(--text-faint)' }}>OBSERVATION LOG</span>
-            </div>
-          </FocusPullReveal>
-
-          <FocusPullReveal delay={0.2}>
-            <p
-              className="leading-[1.85] mb-6"
-              style={{
-                fontSize: 'clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem)',
-                color: 'var(--text-star)',
-                fontWeight: 300,
-                maxWidth: '60ch',
-              }}
-            >
-              Informatics Engineering undergraduate with a deep focus on{' '}
-              <span
-                style={{
-                  color: 'var(--accent-nebula)',
-                  fontWeight: 600,
-                  borderBottom: '1px solid rgba(124,111,240,0.35)',
-                  paddingBottom: '1px',
-                }}
-              >
-                cybersecurity
-              </span>{' '}
-              and{' '}
-              <span
-                style={{
-                  color: 'var(--accent-nebula)',
-                  fontWeight: 600,
-                  borderBottom: '1px solid rgba(124,111,240,0.35)',
-                  paddingBottom: '1px',
-                }}
-              >
-                network defense
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          
+          {/* Left: Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl text-[var(--text-primary)] leading-tight">
+              Building Digital
+              <span className="block bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">
+                Experiences
               </span>
-              . Currently developing a Purple Team Exercise Framework as thesis
-              research — bridging the gap between offensive and defensive security
-              operations through structured, repeatable assessments.
-            </p>
-          </FocusPullReveal>
+            </h2>
 
-          <FocusPullReveal delay={0.3}>
-            <p
-              className="leading-[1.75] mb-12"
-              style={{
-                fontSize: 'clamp(0.875rem, 0.825rem + 0.25vw, 1rem)',
-                color: 'var(--text-dim)',
-                maxWidth: '58ch',
-              }}
-            >
-              Beyond security, experienced in building web applications,
-              administering network infrastructure, and working with containerized
-              environments. Driven by the belief that understanding how systems
-              break is the foundation for building systems that hold.
-            </p>
-          </FocusPullReveal>
-
-          {/* Avatar signature */}
-          <FocusPullReveal delay={0.4}>
-            <div className="flex items-center gap-5">
-              <div
-                className="w-14 h-14 flex items-center justify-center font-bold text-sm"
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  color: 'var(--accent-nebula)',
-                  border: '1px solid var(--accent-nebula)',
-                  background: 'var(--accent-nebula-dim)',
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))',
-                }}
-                aria-label="Nur Yanfa initials"
-              >
-                NY
-              </div>
-              <div>
-                <div
-                  className="mb-1"
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '0.875rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    color: 'var(--text-star)',
-                  }}
-                >
-                  Nur Yanfa
-                </div>
-                <div
-                  className="font-mono text-[10px] tracking-[0.2em] uppercase"
-                  style={{ color: 'var(--text-faint)' }}
-                >
-                  SECTOR: APPLIED SECURITY
-                </div>
-              </div>
+            <div className="space-y-4 text-[var(--text-secondary)] text-base md:text-lg leading-relaxed">
+              <p>
+                I'm <strong className="text-[var(--text-primary)] font-semibold">Muhamad Nur Yanfa</strong>, 
+                a Software Engineer passionate about creating robust, scalable systems and 
+                delightful user experiences.
+              </p>
+              <p>
+                My journey spans <strong className="text-[var(--accent-primary)]">full-stack development</strong>, 
+                <strong className="text-[var(--accent-secondary)]"> backend architecture</strong>, and 
+                <strong className="text-[var(--accent-violet)]"> security engineering</strong>. 
+                I believe great software is built at the intersection of solid engineering principles 
+                and thoughtful design.
+              </p>
+              <p>
+                Currently exploring <strong className="text-[var(--accent-acid)]">modern web technologies</strong>, 
+                system design patterns, and security best practices while building projects that solve 
+                real-world problems.
+              </p>
             </div>
-          </FocusPullReveal>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="pt-4"
+            >
+              <a
+                href="/about"
+                className="inline-flex items-center gap-2 text-[var(--accent-primary)] font-display font-semibold hover:gap-4 transition-all group"
+              >
+                Learn more about me
+                <motion.span
+                  className="text-xl"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  →
+                </motion.span>
+              </a>
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Visual/Interests */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative"
+          >
+            {/* Interest cards */}
+            <div className="grid grid-cols-2 gap-4">
+              {interests.map((interest, index) => (
+                <motion.div
+                  key={interest.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * index }}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  className="relative group p-6 bg-[var(--bg-elevated)] border border-white/5 rounded-lg hover:border-white/10 transition-all overflow-hidden"
+                >
+                  {/* Glow effect on hover */}
+                  <div 
+                    className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity blur-xl"
+                    style={{ backgroundColor: interest.color }}
+                  />
+                  
+                  <div className="relative z-10">
+                    <interest.icon 
+                      size={32} 
+                      className="mb-4 transition-colors"
+                      style={{ color: interest.color }}
+                    />
+                    <h3 className="font-display text-sm font-semibold text-[var(--text-primary)] leading-tight">
+                      {interest.label}
+                    </h3>
+                  </div>
+
+                  {/* Pixel decoration */}
+                  <div 
+                    className="absolute bottom-2 right-2 w-2 h-2 pixel-decoration opacity-50"
+                    style={{ backgroundColor: interest.color }}
+                  />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Floating pixel decorations */}
+            <motion.div
+              className="absolute -top-4 -right-4 w-4 h-4 pixel-decoration bg-[var(--accent-primary)]"
+              animate={{ y: [0, -10, 0], opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            />
+            <motion.div
+              className="absolute -bottom-4 -left-4 w-3 h-3 pixel-decoration bg-[var(--accent-secondary)]"
+              animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
+            />
+          </motion.div>
         </div>
       </div>
     </section>

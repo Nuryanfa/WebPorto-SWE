@@ -1,5 +1,3 @@
-import { FocusPullReveal } from '@/components/motion/FocusPullReveal';
-import { SectionEyebrow } from '@/components/ui/SectionEyebrow';
 import { ProjectCatalog } from '@/components/sections/ProjectCatalog';
 
 /**
@@ -10,21 +8,22 @@ export default function Projects() {
     <div className="pt-[var(--nav-height)]">
       <section className="section-spacing">
         <div className="container-observatory">
-          <FocusPullReveal>
-            <SectionEyebrow index="03" label="CATALOG" />
-          </FocusPullReveal>
+          <div className="font-mono text-sm tracking-widest text-[var(--text-faint)] mb-4">
+            [ MENU: QUEST LOG ]
+          </div>
 
-          <FocusPullReveal delay={0.1}>
+          <div>
             <h1
-              className="text-[var(--text-star)] mb-3"
+              className="text-[var(--accent-cyan)] mb-3 font-display glitch uppercase"
               style={{ fontSize: 'var(--text-2xl)' }}
+              data-text="Quest Log"
             >
-              Full Catalog
+              Quest Log
             </h1>
-            <p className="text-[var(--text-dim)] mb-4 normal-case">
-              Complete registry of observed objects — projects, research, and contributions.
+            <p className="text-[var(--text-secondary)] mb-4 normal-case font-mono tracking-wider">
+              Records of completed missions, current objectives, and side quests.
             </p>
-          </FocusPullReveal>
+          </div>
         </div>
       </section>
 

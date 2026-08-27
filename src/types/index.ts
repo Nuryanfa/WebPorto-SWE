@@ -1,10 +1,10 @@
 /* ── Project Types ── */
 export interface Project {
   slug: string;
-  designation: string;        // e.g., "OBJ-01"
+  designation: string;        // e.g., "01", "02" (simplified from OBJ-01)
   title: string;
-  sector: string;             // e.g., "SECURITY", "NETWORKING", "DEVELOPMENT"
-  magnitude: string;          // e.g., "Thesis-grade", "Course project", "Personal"
+  sector: string;             // e.g., "Full-Stack Development", "Frontend Development"
+  magnitude: string;          // e.g., "Major", "Core", "Minor"
   status: 'Completed' | 'In Progress' | 'Planned';
   description: string;
   longDescription?: string;
@@ -14,7 +14,8 @@ export interface Project {
     live?: string;
     docs?: string;
   };
-  featured?: boolean;         // highlighted with accent-solar
+  featured?: boolean;
+  highlights?: string[];      // Key achievements/features
 }
 
 /* ── Skill Types (Orbital Diagram) ── */

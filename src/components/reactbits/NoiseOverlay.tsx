@@ -1,4 +1,4 @@
-import React from 'react';
+// React import removed
 
 /**
  * Noise Overlay / Film Grain effect

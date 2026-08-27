@@ -1,5 +1,4 @@
 import { type ReactNode, type ButtonHTMLAttributes } from 'react';
-import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -10,11 +9,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 /**
- * Button with two variants:
- * - solid: accent-nebula background, angular clip-path corners
- * - ghost: text link with arrow, no background
- * 
- * PRD §6.1: CTA hierarchy — never two equal-weight buttons side by side
+ * Pixel-Art Button
+ * - solid: pink pixel bevel button
+ * - ghost: cyan text link with pixel arrow
  */
 export function Button({
   variant = 'solid',
@@ -26,44 +23,40 @@ export function Button({
 }: ButtonProps) {
   const baseStyles = `
     inline-flex items-center gap-2 
-    font-[family-name:var(--font-display)] font-semibold 
-    tracking-wider uppercase text-sm
-    transition-all duration-150 ease-[var(--ease-out-expo)]
-    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-nebula)]
+    font-[family-name:var(--font-display)] 
+    uppercase text-xs sm:text-sm
+    transition-transform duration-75
+    focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-pink)]
     cursor-pointer
   `;
 
   const variants = {
     solid: `
-      relative
-      text-[var(--bg-void)]
-      hover:shadow-[0_0_20px_var(--accent-nebula-glow)]
-      active:scale-[0.97]
+      bg-[var(--accent-pink)]
+      text-white
+      px-6 py-4
+      border-t-4 border-l-4 border-white
+      border-b-4 border-r-4 border-[var(--pixel-border-dark)]
+      hover:brightness-110
+      active:border-t-4 active:border-l-4 active:border-[var(--pixel-border-dark)]
+      active:border-b-4 active:border-r-4 active:border-white
+      active:translate-y-1 active:translate-x-1
     `,
     ghost: `
-      relative
-      text-[var(--accent-nebula)] bg-transparent
-      hover:text-[var(--text-star)]
+      text-[var(--accent-cyan)] bg-transparent
+      hover:text-[var(--accent-pink)]
       border-none
-      after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full 
-      after:bg-[var(--accent-nebula)]
-      after:origin-bottom-right after:scale-x-0 
-      hover:after:origin-bottom-left hover:after:scale-x-100 
-      after:transition-transform after:duration-300 after:ease-[var(--ease-out-expo)]
+      px-0 py-2
+      group
     `,
   };
 
   const content = (
     <>
-      {variant === 'solid' && (
-        <div className="absolute inset-0 bg-[var(--accent-nebula)] group-hover:bg-[#8B7FF5] overflow-hidden [clip-path:var(--clip-angular)] transition-colors z-0">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent)] -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-700 ease-in-out" />
-        </div>
-      )}
-      <span className={`relative z-10 flex items-center justify-center gap-2 ${variant === 'solid' ? 'text-[var(--bg-void)] pl-2' : 'text-current'}`}>
+      <span className="relative z-10 flex items-center justify-center gap-2 mt-1">
         {children}
         {icon && variant === 'ghost' && (
-          <ArrowRight size={16} className="transition-transform duration-150 group-hover:translate-x-1" />
+          <ArrowRight size={16} className="transition-transform duration-150 group-hover:translate-x-2" style={{ imageRendering: 'pixelated' }} />
         )}
       </span>
     </>
@@ -71,29 +64,21 @@ export function Button({
 
   if (href) {
     return (
-      <motion.a
+      <a
         href={href}
-        className={`${baseStyles} ${variants[variant]} group ${className}`}
-        style={variant === 'solid' ? { padding: '14px 28px' } : { padding: '4px 0' }}
-        whileHover={{ scale: variant === 'solid' ? 1.02 : 1 }}
-        whileTap={{ scale: 0.97 }}
-        data-magnetic
+        className={`${baseStyles} ${variants[variant]} ${className}`}
       >
         {content}
-      </motion.a>
+      </a>
     );
   }
 
   return (
-    <motion.button
-      className={`${baseStyles} ${variants[variant]} group ${className}`}
-      style={variant === 'solid' ? { padding: '14px 28px' } : { padding: '4px 0' }}
-      whileHover={{ scale: variant === 'solid' ? 1.02 : 1 }}
-      whileTap={{ scale: 0.97 }}
-      data-magnetic
+    <button
+      className={`${baseStyles} ${variants[variant]} ${className}`}
       {...(props as object)}
     >
       {content}
-    </motion.button>
+    </button>
   );
 }

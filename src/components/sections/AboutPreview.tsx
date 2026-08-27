@@ -136,16 +136,16 @@ function CapabilityRow({
       {/* Top pixel divider */}
       <div className="px-divider" />
 
-      <div className="py-8 grid grid-cols-[auto_1fr] gap-6 items-start">
+      <div className="py-8 grid grid-cols-[5rem_1fr] gap-5 items-start">
 
         {/* Index number — oversized, accent-coloured */}
-        <div className="relative w-16 flex-shrink-0">
+        <div className="relative w-20 flex-shrink-0 overflow-hidden">
           <motion.span
-            className="font-display font-extrabold leading-none select-none
+            className="block font-display font-extrabold leading-none select-none
                        opacity-20 group-hover:opacity-40
                        transition-opacity duration-200"
             style={{
-              fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+              fontSize: 'clamp(2.4rem, 4vw, 3.5rem)',
               color: cap.accent,
             }}
             variants={{
@@ -155,11 +155,10 @@ function CapabilityRow({
             {cap.index}
           </motion.span>
 
-          {/* Pixel dot beside number */}
+          {/* Pixel dot below number */}
           <motion.span
             aria-hidden="true"
-            className="absolute -right-2 top-1/2 -translate-y-1/2
-                       w-2 h-2 pixel-decoration"
+            className="absolute bottom-1 left-1 w-2 h-2 pixel-decoration"
             style={{ background: cap.accent }}
             variants={{
               hover: {

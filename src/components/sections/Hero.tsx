@@ -191,7 +191,7 @@ export function Hero() {
           {/* ════════════════════════════════
               LEFT — Editorial text content
               ════════════════════════════════ */}
-          <div className="relative flex flex-col justify-center max-w-[680px]">
+          <div className="relative flex flex-col justify-center min-w-0">
 
             {/* Accent horizontal rule — sweeps in */}
             <div
@@ -220,20 +220,19 @@ export function Hero() {
             </div>
 
             {/* Name — oversized display type, two lines */}
-            <div className="mb-5 overflow-hidden" aria-label="Muhamad Nur Yanfa">
+            <div className="mb-5" aria-label="Muhamad Nur Yanfa">
               <div
                 ref={nameLine1Ref}
                 className="font-display font-bold leading-[0.92] tracking-[-0.04em] text-[var(--text-primary)]"
-                style={{ fontSize: 'clamp(3.2rem, 9vw + 1rem, 7.5rem)', opacity: 0 }}
+                style={{ fontSize: 'clamp(2.8rem, 7vw, 6.5rem)', opacity: 0 }}
               >
                 MUHAMAD
               </div>
               <div
                 ref={nameLine2Ref}
-                className="font-display font-bold leading-[0.92] tracking-[-0.04em] text-[var(--text-primary)]"
-                style={{ fontSize: 'clamp(3.2rem, 9vw + 1rem, 7.5rem)', opacity: 0 }}
+                className="font-display font-bold leading-[0.92] tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(2.8rem, 7vw, 6.5rem)', opacity: 0 }}
               >
-                {/* Second line has gradient on key word */}
                 <span className="text-[var(--text-primary)]">NUR </span>
                 <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]
                                  bg-clip-text text-transparent">

@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { projects } from '@/data/projects';
-import { ArrowRight, ExternalLink, GitBranch } from 'lucide-react';
+import { ExternalLink, GitBranch, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface ProjectCatalogProps {
@@ -212,19 +212,8 @@ export function ProjectCatalog({ showViewAll = false }: ProjectCatalogProps) {
             transition={{ delay: 0.3 }}
             className="mt-20 text-center"
           >
-            <Button
-              href="/projects"
-              className="group px-8 py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-display font-semibold rounded-lg hover:shadow-[0_0_30px_rgba(255,0,110,0.3)] transition-all"
-            >
-              <span className="flex items-center gap-2">
-                View All Projects
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowRight size={20} />
-                </motion.span>
-              </span>
+            <Button href="/projects" variant="primary">
+              View All Projects
             </Button>
           </motion.div>
         )}

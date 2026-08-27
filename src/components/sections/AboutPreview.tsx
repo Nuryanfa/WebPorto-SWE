@@ -136,49 +136,37 @@ function CapabilityRow({
       {/* Top pixel divider */}
       <div className="px-divider" />
 
-      <div className="py-8 grid grid-cols-[5rem_1fr] gap-5 items-start">
+      <div className="py-7 grid grid-cols-[3.5rem_1fr] gap-4 items-start">
 
-        {/* Index number — oversized, accent-coloured */}
-        <div className="relative w-20 flex-shrink-0 overflow-hidden">
-          <motion.span
-            className="block font-display font-extrabold leading-none select-none
-                       opacity-20 group-hover:opacity-40
+        {/* Index — small mono label, purely decorative */}
+        <div className="pt-1 flex-shrink-0">
+          <span
+            className="block font-mono font-bold leading-none select-none
+                       opacity-30 group-hover:opacity-60
                        transition-opacity duration-200"
-            style={{
-              fontSize: 'clamp(2.4rem, 4vw, 3.5rem)',
-              color: cap.accent,
-            }}
-            variants={{
-              hover: { scale: 1.05, transition: { duration: 0.2 } },
-            }}
+            style={{ fontSize: '0.85rem', color: cap.accent, letterSpacing: '0.05em' }}
           >
             {cap.index}
-          </motion.span>
-
-          {/* Pixel dot below number */}
+          </span>
           <motion.span
             aria-hidden="true"
-            className="absolute bottom-1 left-1 w-2 h-2 pixel-decoration"
+            className="mt-2 block w-2 h-2 pixel-decoration"
             style={{ background: cap.accent }}
             variants={{
-              hover: {
-                scale: [1, 1.6, 1],
-                transition: { duration: 0.35, ease: 'easeInOut' },
-              },
+              hover: { scale: [1, 1.6, 1], transition: { duration: 0.35 } },
             }}
           />
         </div>
 
         {/* Content */}
-        <div className="space-y-2 pt-1">
-          {/* Title — newline chars become separate lines via whitespace-pre-line */}
+        <div className="space-y-2">
           <h3
-            className="font-display font-bold leading-[1.05] tracking-tight
+            className="font-display font-bold leading-[1.1] tracking-tight
                        text-[var(--text-primary)] group-hover:text-[var(--accent-primary)]
-                       transition-colors duration-200 whitespace-pre-line"
-            style={{ fontSize: 'clamp(1.4rem, 2vw + 0.5rem, 2rem)', color: undefined }}
+                       transition-colors duration-200"
+            style={{ fontSize: 'clamp(1.1rem, 1.5vw + 0.5rem, 1.5rem)' }}
           >
-            {cap.title}
+            {cap.title.replace('\n', ' ')}
           </h3>
 
           <p className="font-body text-[var(--text-tertiary)] leading-relaxed max-w-[38ch]"

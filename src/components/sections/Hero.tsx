@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import { motion } from 'motion/react';
-import { ArrowRight, GitBranch, Link2, Mail } from 'lucide-react';
+import { GitBranch, Link2, Mail } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 /* ─────────────────────────────────────────────
@@ -266,52 +267,12 @@ export function Hero() {
 
             {/* CTAs */}
             <div ref={ctaRef} style={{ opacity: 0 }} className="flex flex-wrap items-center gap-4 mb-10">
-              {/* Primary CTA */}
-              <motion.a
-                href="#projects"
-                whileHover={prefersReducedMotion ? {} : { scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="group relative inline-flex items-center gap-2
-                           px-7 py-3.5 rounded-lg overflow-hidden
-                           font-display font-semibold text-sm
-                           bg-[var(--accent-primary)] text-white
-                           hover:shadow-[0_0_28px_rgba(255,0,110,0.45)]
-                           transition-shadow duration-300"
-              >
-                {/* Shimmer overlay */}
-                <motion.span
-                  aria-hidden="true"
-                  className="absolute inset-0 bg-gradient-to-r
-                             from-transparent via-white/10 to-transparent
-                             -translate-x-full"
-                  animate={prefersReducedMotion ? {} : { translateX: ['-100%', '200%'] }}
-                  transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
-                />
-                <span className="relative z-10">Explore My Work</span>
-                <motion.span
-                  className="relative z-10"
-                  animate={prefersReducedMotion ? {} : { x: [0, 4, 0] }}
-                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  <ArrowRight size={17} />
-                </motion.span>
-              </motion.a>
-
-              {/* Secondary CTA — outlined */}
-              <motion.a
-                href="/contact"
-                whileHover={prefersReducedMotion ? {} : { scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2
-                           px-7 py-3.5 rounded-lg
-                           font-display font-semibold text-sm
-                           border border-[var(--accent-secondary)]
-                           text-[var(--accent-secondary)]
-                           hover:bg-[var(--accent-secondary)] hover:text-[var(--bg-base)]
-                           transition-colors duration-200"
-              >
+              <Button href="#projects" variant="primary">
+                Explore My Work
+              </Button>
+              <Button href="/contact" variant="outline" arrow={false}>
                 Get In Touch
-              </motion.a>
+              </Button>
             </div>
 
             {/* Socials */}

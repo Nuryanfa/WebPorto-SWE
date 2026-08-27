@@ -270,3 +270,72 @@ a:hover { color: var(--accent-secondary); }
     scroll-behavior: auto            !important;
   }
 }
+
+/* ═══════════════════════════════════════════
+   PIXEL BUTTON SYSTEM
+   clip-path on the element itself is safe here because
+   the text is NOT an absolutely-positioned child — it's
+   a normal inline child, so it renders inside the
+   clipped area naturally.
+   ═══════════════════════════════════════════ */
+.px-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  line-height: 1;
+}
+
+.px-btn--primary {
+  background-color: var(--accent-primary);
+  color: #ffffff !important;
+  box-shadow: 4px 4px 0 0 rgba(0,0,0,0.85);
+  transition: box-shadow 80ms linear, transform 80ms linear;
+}
+.px-btn--primary:hover {
+  box-shadow: 2px 2px 0 0 rgba(0,0,0,0.85);
+  transform: translate(2px, 2px);
+}
+.px-btn--primary:active {
+  box-shadow: none;
+  transform: translate(4px, 4px);
+}
+
+.px-btn--outline {
+  color: var(--accent-secondary) !important;
+  box-shadow: inset 0 0 0 2px var(--accent-secondary);
+  transition: background-color 150ms ease;
+}
+.px-btn--outline:hover {
+  background-color: rgba(0, 245, 255, 0.08);
+}
+
+.px-btn--ghost {
+  padding: 0;
+  clip-path: none;
+  color: var(--accent-primary) !important;
+  background: transparent;
+}
+.px-btn--ghost:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 4px;
+}
+
+.px-btn:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 4px;
+}

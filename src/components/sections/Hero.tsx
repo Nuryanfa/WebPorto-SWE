@@ -176,8 +176,9 @@ export function Hero() {
       </div>
 
       {/* ── Main two-zone layout ── */}
-      <div className="container-observatory relative z-10 flex-1 flex items-center">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-0 lg:gap-12
+      <div className="relative z-10 flex-1 flex items-center
+                      px-[clamp(2.5rem,5vw,6rem)]">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-0 lg:gap-16
                         pt-[calc(var(--nav-height)+2rem)] pb-24
                         lg:pt-[calc(var(--nav-height)+3rem)] lg:pb-16
                         items-center min-h-screen">
@@ -217,15 +218,15 @@ export function Hero() {
             <div className="mb-5" aria-label="Muhamad Nur Yanfa">
               <div
                 ref={nameLine1Ref}
-                className="font-display font-bold leading-[0.92] tracking-[-0.04em] text-[var(--text-primary)]"
-                style={{ fontSize: 'clamp(2.8rem, 7vw, 6.5rem)', opacity: 0 }}
+                className="font-display font-bold leading-[0.88] tracking-[-0.04em] text-[var(--text-primary)]"
+                style={{ fontSize: 'clamp(4rem, 9vw, 10rem)', opacity: 0 }}
               >
                 MUHAMAD
               </div>
               <div
                 ref={nameLine2Ref}
-                className="font-display font-bold leading-[0.92] tracking-[-0.04em]"
-                style={{ fontSize: 'clamp(2.8rem, 7vw, 6.5rem)', opacity: 0 }}
+                className="font-display font-bold leading-[0.88] tracking-[-0.04em]"
+                style={{ fontSize: 'clamp(4rem, 9vw, 10rem)', opacity: 0 }}
               >
                 <span className="text-[var(--text-primary)]">NUR </span>
                 <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]
@@ -239,8 +240,10 @@ export function Hero() {
             <div ref={roleRef} style={{ opacity: 0 }} className="mb-8">
               <div className="inline-flex items-center gap-3">
                 <div className="w-3 h-3 pixel-decoration bg-[var(--accent-primary)]" />
-                <span className="font-display text-lg md:text-xl lg:text-2xl font-semibold
-                                 text-[var(--text-secondary)] tracking-wide">
+                <span
+                  className="font-display font-semibold tracking-wide text-[var(--text-secondary)]"
+                  style={{ fontSize: 'clamp(1.1rem, 2vw, 1.6rem)' }}
+                >
                   Software Engineer
                 </span>
               </div>
@@ -249,9 +252,8 @@ export function Hero() {
             {/* Description */}
             <p
               ref={descRef}
-              style={{ opacity: 0 }}
-              className="font-body text-[var(--text-secondary)] text-base md:text-lg
-                         leading-relaxed max-w-[52ch] mb-10"
+              className="font-body text-[var(--text-secondary)] leading-relaxed max-w-[48ch] mb-10"
+              style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.1rem)', opacity: 0 }}
             >
               Building web experiences, software systems, and digital products
               with a focus on clean architecture, thoughtful interaction,

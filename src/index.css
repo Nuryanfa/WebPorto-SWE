@@ -373,7 +373,7 @@ a:hover { color: var(--accent-secondary); }
   margin-left: var(--nav-width);
   min-height: 100vh;
 }
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .scene-content {
     margin-left: 0;
     padding-top: var(--nav-height);
@@ -383,10 +383,14 @@ a:hover { color: var(--accent-secondary); }
 .scene-section {
   min-height: 100vh;
   padding-block: clamp(5rem, 14vh, 10rem);
-  padding-inline: clamp(2rem, 6vw, 6rem);
+  /* Left padding accounts for scene-content already offset by nav */
+  padding-inline: clamp(2.5rem, 5vw, 6rem);
 }
-@media (max-width: 768px) {
-  .scene-section { padding-block: var(--space-16); padding-inline: var(--space-6); }
+@media (max-width: 900px) {
+  .scene-section {
+    padding-block: var(--space-16);
+    padding-inline: var(--space-6);
+  }
 }
 
 /* Scene accent overrides — apply to a scene wrapper */
@@ -397,3 +401,19 @@ a:hover { color: var(--accent-secondary); }
 [data-scene="work"]       { --scene-accent: var(--scene-work); }
 [data-scene="experience"] { --scene-accent: var(--scene-experience); }
 [data-scene="contact"]    { --scene-accent: var(--scene-contact); }
+
+/* ═══════════════════════════════════════════
+   VERTICAL NAV — Responsive visibility
+   Custom 900px breakpoint (not a Tailwind default)
+   ═══════════════════════════════════════════ */
+.vnav-desktop    { display: none; }
+.vnav-mobile-bar { display: none; }
+
+@media (min-width: 900px) {
+  .vnav-desktop    { display: flex; }
+  .vnav-mobile-bar { display: none; }
+}
+@media (max-width: 899px) {
+  .vnav-desktop    { display: none !important; }
+  .vnav-mobile-bar { display: flex; }
+}

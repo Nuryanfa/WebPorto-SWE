@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import { VerticalNav } from '@/components/navigation/VerticalNav';
+import { SceneTransitionProvider } from '@/components/navigation/SceneTransitionController';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { NoiseOverlay } from '@/components/reactbits/NoiseOverlay';
@@ -75,21 +76,19 @@ export default function App() {
         <div
           className="min-h-screen flex flex-col"
           style={{
-            /* Prevent interaction behind entry scene */
             pointerEvents: entryDone ? 'auto' : 'none',
-            /* Keep layout visible so LCP isn't blocked */
             opacity: entryDone ? 1 : 0,
           }}
         >
-          <VerticalNav />
-
-          {/* Content shifts right to clear the 72px vertical nav on desktop */}
-          <div className="scene-content flex flex-col flex-1">
-            <main className="flex-1">
-              <AnimatedRoutes />
-            </main>
-            <Footer />
-          </div>
+          <SceneTransitionProvider>
+            <VerticalNav />
+            <div className="scene-content flex flex-col flex-1">
+              <main className="flex-1">
+                <AnimatedRoutes />
+              </main>
+              <Footer />
+            </div>
+          </SceneTransitionProvider>
         </div>
       </SmoothScroll>
     </BrowserRouter>

@@ -93,8 +93,8 @@
   /* ── Layout ── */
   --max-width:         1440px;
   --max-width-narrow:  900px;
-  --nav-width:         72px;   /* vertical nav width */
-  --nav-height:        4.5rem; /* kept for mobile fallback */
+  --nav-width:         200px;  /* vertical nav — 18% of 1080p ≈ 200px */
+  --nav-height:        4.5rem; /* mobile fallback */
 
   /* ── Spacing ── */
   --space-1:  0.25rem;  --space-2:  0.5rem;

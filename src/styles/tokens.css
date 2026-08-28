@@ -4,64 +4,59 @@
    ============================================ */
 
 :root {
-  /* ── Base (§28 — INK) ── */
-  --bg-base:     #08080C;
-  --bg-elevated: #0F0F15;
-  --bg-panel:    #16161F;
-  --bg-surface:  #1E1E2A;
+  /* ── Base ── */
+  --bg-base:     #08090D;
+  --bg-elevated: #0E0F14;
+  --bg-panel:    #14151C;
+  --bg-surface:  #1B1C25;
 
-  /* ── Scene accent map (§29) ── */
-  /* Entry     → White on Black      */
-  /* Identity  → Magenta             */
-  --scene-identity:   #E8006A;
-  /* Profile   → Lavender            */
-  --scene-profile:    #9D8FFF;
-  /* Capabilities → Magenta + Cyan   */
-  --scene-caps:       #E8006A;
-  /* Arsenal   → Cyan                */
-  --scene-arsenal:    #00EEFF;
-  /* Work      → Cyan                */
-  --scene-work:       #00EEFF;
-  /* Experience → Lavender           */
-  --scene-experience: #9D8FFF;
-  /* Contact   → Acid Green          */
-  --scene-contact:    #AAFF00;
+  /* ── Scene accent map ── */
+  --scene-identity:   #FF007A;
+  --scene-profile:    #8B5CF6;
+  --scene-caps:       #FF007A;
+  --scene-arsenal:    #00E5FF;
+  --scene-work:       #00E5FF;
+  --scene-experience: #8B5CF6;
+  --scene-contact:    #D7FF00;
 
-  /* ── Named accents (use via scene map above) ── */
-  --accent-magenta:  #E8006A;
-  --accent-magenta-dim: #B30053;
-  --accent-magenta-glow: rgba(232, 0, 106, 0.30);
+  /* ── Named accents ── */
+  --accent-pink:         #FF007A;
+  --accent-pink-dim:     #BF005C;
+  --accent-pink-glow:    rgba(255, 0, 122, 0.28);
 
-  --accent-lavender:  #9D8FFF;
-  --accent-lavender-dim: #7B6CE0;
-  --accent-lavender-glow: rgba(157, 143, 255, 0.25);
+  --accent-cyan:         #00E5FF;
+  --accent-cyan-dim:     #00B8CC;
+  --accent-cyan-glow:    rgba(0, 229, 255, 0.22);
 
-  --accent-cyan:  #00EEFF;
-  --accent-cyan-dim: #00BFD0;
-  --accent-cyan-glow: rgba(0, 238, 255, 0.25);
+  --accent-purple:       #8B5CF6;
+  --accent-purple-dim:   #6D3FE0;
+  --accent-purple-glow:  rgba(139, 92, 246, 0.22);
 
-  --accent-acid:  #AAFF00;
-  --accent-acid-dim: #88CC00;
-  --accent-acid-glow: rgba(170, 255, 0, 0.25);
+  --accent-acid:         #D7FF00;
+  --accent-acid-dim:     #AACC00;
+  --accent-acid-glow:    rgba(215, 255, 0, 0.22);
 
-  /* ── Legacy aliases (keep existing components working) ── */
-  --accent-primary:      var(--accent-magenta);
-  --accent-primary-dim:  var(--accent-magenta-dim);
-  --accent-primary-glow: var(--accent-magenta-glow);
-  --accent-secondary:    var(--accent-cyan);
+  /* ── Legacy aliases — keep existing components compiling ── */
+  --accent-primary:       var(--accent-pink);
+  --accent-primary-dim:   var(--accent-pink-dim);
+  --accent-primary-glow:  var(--accent-pink-glow);
+  --accent-secondary:     var(--accent-cyan);
   --accent-secondary-dim: var(--accent-cyan-dim);
-  --accent-secondary-glow: var(--accent-cyan-glow);
-  --accent-violet:  var(--accent-lavender);
-  --accent-crimson: #FF4D6D;
-  --accent-pink:    var(--accent-magenta);
-  --pixel-border-dark:  #03030A;
-  --pixel-border-light: rgba(255,255,255,0.12);
+  --accent-secondary-glow:var(--accent-cyan-glow);
+  --accent-violet:        var(--accent-purple);
+  --accent-magenta:       var(--accent-pink);
+  --accent-magenta-dim:   var(--accent-pink-dim);
+  --accent-magenta-glow:  var(--accent-pink-glow);
+  --accent-lavender:      var(--accent-purple);
+  --accent-crimson:       #FF4D6D;
+  --pixel-border-dark:    #03030A;
+  --pixel-border-light:   rgba(255,255,255,0.10);
 
   /* ── Text ── */
-  --text-primary:   #F2F2F5;
-  --text-secondary: #A8A8BE;
-  --text-tertiary:  #6A6A85;
-  --text-faint:     #3A3A52;
+  --text-primary:   #F5F3F0;  /* warm off-white */
+  --text-secondary: #A8A4A0;
+  --text-tertiary:  #66625E;
+  --text-faint:     #3A3835;
 
   /* ── Typography ── */
   --font-display: 'Syne', 'Space Grotesk', system-ui, sans-serif;
@@ -70,17 +65,17 @@
   --font-pixel:   'Pixelify Sans', monospace;
 
   /* ── Type Scale (fluid) ── */
-  --text-xs:   clamp(0.68rem, 0.63rem + 0.15vw, 0.72rem);
-  --text-sm:   clamp(0.78rem, 0.73rem + 0.18vw, 0.84rem);
-  --text-base: clamp(0.88rem, 0.83rem + 0.22vw, 0.96rem);
-  --text-lg:   clamp(1.00rem, 0.94rem + 0.28vw, 1.10rem);
-  --text-xl:   clamp(1.12rem, 1.05rem + 0.35vw, 1.25rem);
-  --text-2xl:  clamp(1.30rem, 1.18rem + 0.55vw, 1.50rem);
-  --text-3xl:  clamp(1.65rem, 1.45rem + 0.90vw, 1.90rem);
-  --text-4xl:  clamp(2.00rem, 1.70rem + 1.20vw, 2.50rem);
-  --text-5xl:  clamp(2.40rem, 1.90rem + 1.90vw, 3.50rem);
-  --text-6xl:  clamp(2.90rem, 2.20rem + 2.80vw, 5.00rem);
-  --text-7xl:  clamp(3.80rem, 2.60rem + 4.80vw, 7.00rem);
+  --text-xs:   clamp(0.65rem, 0.60rem + 0.14vw, 0.70rem);
+  --text-sm:   clamp(0.76rem, 0.71rem + 0.17vw, 0.82rem);
+  --text-base: clamp(0.88rem, 0.82rem + 0.20vw, 0.95rem);
+  --text-lg:   clamp(1.00rem, 0.93rem + 0.26vw, 1.08rem);
+  --text-xl:   clamp(1.12rem, 1.04rem + 0.32vw, 1.22rem);
+  --text-2xl:  clamp(1.28rem, 1.16rem + 0.52vw, 1.48rem);
+  --text-3xl:  clamp(1.62rem, 1.42rem + 0.88vw, 1.88rem);
+  --text-4xl:  clamp(2.00rem, 1.68rem + 1.18vw, 2.48rem);
+  --text-5xl:  clamp(2.40rem, 1.88rem + 1.88vw, 3.48rem);
+  --text-6xl:  clamp(2.90rem, 2.18rem + 2.78vw, 4.98rem);
+  --text-7xl:  clamp(3.80rem, 2.58rem + 4.78vw, 7.00rem);
 
   /* ── Pixel System ── */
   --px-unit:    4px;
@@ -91,10 +86,10 @@
   --px-corner: 10px;
 
   /* ── Layout ── */
-  --max-width:         1440px;
-  --max-width-narrow:  900px;
-  --nav-width:         200px;  /* vertical nav — 18% of 1080p ≈ 200px */
-  --nav-height:        4.5rem; /* mobile fallback */
+  --max-width:        1440px;
+  --max-width-narrow: 900px;
+  --nav-width:        130px;  /* compact rail — not a sidebar */
+  --nav-height:       4rem;   /* mobile fallback */
 
   /* ── Spacing ── */
   --space-1:  0.25rem;  --space-2:  0.5rem;
@@ -114,9 +109,9 @@
   --ease-in:      cubic-bezier(0.4, 0, 1, 1);
 
   /* Legacy compat */
-  --transition-fast: var(--dur-fast) ease;
-  --transition-base: var(--dur-base) ease;
-  --transition-slow: var(--dur-slow) ease;
+  --transition-fast: var(--dur-fast)  ease;
+  --transition-base: var(--dur-base)  ease;
+  --transition-slow: var(--dur-slow)  ease;
   --duration-fast:     var(--dur-fast);
   --duration-base:     var(--dur-base);
   --duration-slow:     var(--dur-slow);
@@ -124,23 +119,20 @@
   --ease-out-expo:     var(--ease-expo);
 
   /* ── Shadows ── */
-  --shadow-sm:  0 2px 8px  rgba(0,0,0,0.35);
-  --shadow-md:  0 4px 16px rgba(0,0,0,0.45);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.55);
-  --shadow-glow-primary:   0 0 24px var(--accent-magenta-glow);
-  --shadow-glow-secondary: 0 0 24px var(--accent-cyan-glow);
-  --px-shadow: 3px 3px 0 var(--pixel-border-dark);
+  --shadow-sm:  0 2px 8px  rgba(0,0,0,0.40);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.50);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.60);
+  --shadow-glow-primary:   0 0 20px var(--accent-pink-glow);
+  --shadow-glow-secondary: 0 0 20px var(--accent-cyan-glow);
+  --px-shadow: 4px 4px 0 var(--pixel-border-dark);
 
-  /* ── Radius (minimal, pixel-friendly) ── */
+  /* ── Radius — kept minimal (pixel aesthetic) ── */
   --radius-sm: 2px;
   --radius-md: 4px;
-  --radius-lg: 8px;
+  --radius-lg: 6px;
 }
 
-/* ── Pixel rendering helper ── */
-.pixel-sprite,
-.pixel-perfect,
-.pixel-decoration {
+.pixel-sprite, .pixel-perfect, .pixel-decoration {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;

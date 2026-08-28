@@ -47,8 +47,8 @@ export function Button({
 
   const arrowColor =
     variant === 'primary'  ? '#ffffff'
-    : variant === 'outline' ? 'var(--accent-secondary)'
-    :                         'var(--accent-primary)';
+    : variant === 'outline' ? 'var(--accent-pink)'
+    :                         'var(--accent-pink)';
 
   const inner = (
     <>

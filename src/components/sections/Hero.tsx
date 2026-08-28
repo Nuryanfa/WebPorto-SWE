@@ -20,6 +20,7 @@ export function Hero() {
   const greetingRef    = useRef<HTMLDivElement>(null);
   const nameLine1Ref   = useRef<HTMLDivElement>(null);
   const nameLine2Ref   = useRef<HTMLDivElement>(null);
+  const nameLine3Ref   = useRef<HTMLDivElement>(null);
   const roleRef        = useRef<HTMLDivElement>(null);
   const descRef        = useRef<HTMLDivElement>(null);
   const ctaRef         = useRef<HTMLDivElement>(null);
@@ -31,7 +32,7 @@ export function Hero() {
     /* Make everything visible immediately for reduced-motion users */
     if (prefersReducedMotion) {
       [
-        accentLineRef, greetingRef, nameLine1Ref, nameLine2Ref,
+        accentLineRef, greetingRef, nameLine1Ref, nameLine2Ref, nameLine3Ref,
         roleRef, descRef, ctaRef, socialsRef, characterRef, pixelDecoRef,
       ].forEach(r => {
         if (r.current) {
@@ -83,7 +84,13 @@ export function Hero() {
       opacity:    [0, 1],
       translateX: [-60, 0],
       duration:   800,
-    }, 600)
+    }, 620)
+    .add({
+      targets:    nameLine3Ref.current,
+      opacity:    [0, 1],
+      translateX: [-80, 0],
+      duration:   800,
+    }, 740)
 
     /* 5. Role badge slides in */
     .add({
@@ -130,26 +137,9 @@ export function Hero() {
       aria-label="Introduction"
       className="relative min-h-screen w-full overflow-hidden flex flex-col"
     >
-      {/* ── Background atmospheric glow specific to hero ── */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-      >
-        {/* Pink radial behind text */}
-        <div className="absolute -top-1/4 -left-1/4 w-[60vw] h-[60vw] max-w-[700px] max-h-[700px]
-                        rounded-full blur-[120px]
-                        bg-[radial-gradient(circle,rgba(255,0,110,0.12)_0%,transparent_70%)]" />
-        {/* Cyan radial behind character */}
-        <div className="absolute top-[10%] right-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px]
-                        rounded-full blur-[100px]
-                        bg-[radial-gradient(circle,rgba(0,245,255,0.08)_0%,transparent_70%)]" />
-        {/* Violet bottom accent */}
-        <div className="absolute bottom-0 left-1/3 w-[40vw] h-[30vw] max-w-[500px]
-                        rounded-full blur-[90px]
-                        bg-[radial-gradient(circle,rgba(139,92,246,0.08)_0%,transparent_70%)]" />
-      </div>
+      {/* ── Hero has no additional atmospheric blobs — bg handled globally ── */}
 
-      {/* ── Pixel decorations — meaningful positions only, no random squares ── */}
+      {/* ── Pixel decorations ── */}
       <div
         ref={pixelDecoRef}
         aria-hidden="true"
@@ -214,25 +204,31 @@ export function Hero() {
               </span>
             </div>
 
-            {/* Name — oversized display type, two lines */}
-            <div className="mb-5" aria-label="Muhamad Nur Yanfa">
+            {/* Name — THREE lines: MUHAMAD / NUR / YANFA */}
+            <div className="mb-6" aria-label="Muhamad Nur Yanfa">
               <div
                 ref={nameLine1Ref}
-                className="font-display font-bold leading-[0.88] tracking-[-0.04em] text-[var(--text-primary)]"
-                style={{ fontSize: 'clamp(4rem, 9vw, 10rem)', opacity: 0 }}
+                className="font-display font-extrabold leading-[0.88] tracking-[-0.04em]
+                           text-[var(--text-primary)]"
+                style={{ fontSize: 'clamp(3.2rem, 8vw, 9rem)', opacity: 0 }}
               >
                 MUHAMAD
               </div>
               <div
                 ref={nameLine2Ref}
-                className="font-display font-bold leading-[0.88] tracking-[-0.04em]"
-                style={{ fontSize: 'clamp(4rem, 9vw, 10rem)', opacity: 0 }}
+                className="font-display font-extrabold leading-[0.88] tracking-[-0.04em]
+                           text-[var(--text-primary)]"
+                style={{ fontSize: 'clamp(3.2rem, 8vw, 9rem)', opacity: 0 }}
               >
-                <span className="text-[var(--text-primary)]">NUR </span>
-                <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]
-                                 bg-clip-text text-transparent">
-                  YANFA
-                </span>
+                NUR
+              </div>
+              <div
+                ref={nameLine3Ref}
+                className="font-display font-extrabold leading-[0.88] tracking-[-0.04em]
+                           text-[var(--accent-primary)]"
+                style={{ fontSize: 'clamp(3.2rem, 8vw, 9rem)', opacity: 0 }}
+              >
+                YANFA
               </div>
             </div>
 
@@ -338,38 +334,20 @@ export function Hero() {
               />
             </motion.div>
 
-            {/* Floating accent badge — overlaps character */}
+            {/* Floating accent badge — available indicator */}
             <motion.div
-              animate={prefersReducedMotion ? {} : { y: [0, -8, 0], rotate: [0, -2, 2, 0] }}
+              animate={prefersReducedMotion ? {} : { y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-              className="absolute top-[12%] -right-4 z-20
-                         flex items-center gap-2
-                         px-3 py-2 rounded-lg
-                         bg-[var(--bg-elevated)]/90 backdrop-blur-sm
-                         border border-[var(--accent-primary)]/40
-                         shadow-[0_0_16px_rgba(255,0,110,0.2)]"
+              className="absolute top-[10%] -right-3 z-20
+                         flex items-center gap-2 px-3 py-1.5"
+              style={{
+                background: 'rgba(8,9,13,0.85)',
+                border: '1px solid rgba(255,0,122,0.30)',
+              }}
             >
-              <div className="w-2 h-2 pixel-decoration bg-[var(--accent-primary)] animate-pulse" />
-              <span className="font-mono text-[10px] tracking-widest text-[var(--accent-primary)] uppercase">
+              <div className="w-2 h-2 pixel-decoration bg-[var(--accent-pink)] animate-pulse" />
+              <span className="font-mono text-[9px] tracking-widest text-[var(--accent-pink)] uppercase">
                 Available
-              </span>
-            </motion.div>
-
-            {/* Tech badge — overlaps character */}
-            <motion.div
-              animate={prefersReducedMotion ? {} : { y: [0, 6, 0] }}
-              transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
-              className="absolute bottom-[18%] -left-6 z-20
-                         px-3 py-2 rounded-lg
-                         bg-[var(--bg-elevated)]/90 backdrop-blur-sm
-                         border border-[var(--accent-secondary)]/30
-                         shadow-[0_0_12px_rgba(0,245,255,0.15)]"
-            >
-              <span className="font-mono text-[10px] tracking-widest text-[var(--accent-secondary)] uppercase block">
-                React&ensp;·&ensp;TypeScript
-              </span>
-              <span className="font-mono text-[10px] tracking-widest text-[var(--text-faint)] uppercase block">
-                Laravel&ensp;·&ensp;Go
               </span>
             </motion.div>
           </div>

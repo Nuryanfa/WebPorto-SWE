@@ -1,122 +1,143 @@
 /* ============================================
-   WebPorto SWE — Design Tokens
-   Anime × Pixel × Editorial × Modern
+   WebPorto SWE — Design Tokens V3
+   Blueprint: Japanese Creative × Anime × Pixel × Editorial
    ============================================ */
 
 :root {
-  /* ── Backgrounds ── */
-  --bg-base:     #0A0A0F;
-  --bg-elevated: #12121A;
-  --bg-panel:    #1A1A24;
-  --bg-surface:  #20202E;   /* slightly lighter panel for contrast */
+  /* ── Base (§28 — INK) ── */
+  --bg-base:     #08080C;
+  --bg-elevated: #0F0F15;
+  --bg-panel:    #16161F;
+  --bg-surface:  #1E1E2A;
 
-  /* ── Primary Accent — Hot Pink ── */
-  --accent-primary:     #FF006E;
-  --accent-primary-dim: #CC0058;
-  --accent-primary-glow: rgba(255, 0, 110, 0.35);
+  /* ── Scene accent map (§29) ── */
+  /* Entry     → White on Black      */
+  /* Identity  → Magenta             */
+  --scene-identity:   #E8006A;
+  /* Profile   → Lavender            */
+  --scene-profile:    #9D8FFF;
+  /* Capabilities → Magenta + Cyan   */
+  --scene-caps:       #E8006A;
+  /* Arsenal   → Cyan                */
+  --scene-arsenal:    #00EEFF;
+  /* Work      → Cyan                */
+  --scene-work:       #00EEFF;
+  /* Experience → Lavender           */
+  --scene-experience: #9D8FFF;
+  /* Contact   → Acid Green          */
+  --scene-contact:    #AAFF00;
 
-  /* ── Secondary Accent — Electric Cyan ── */
-  --accent-secondary:      #00F5FF;
-  --accent-secondary-dim:  #00BFD6;
-  --accent-secondary-glow: rgba(0, 245, 255, 0.30);
+  /* ── Named accents (use via scene map above) ── */
+  --accent-magenta:  #E8006A;
+  --accent-magenta-dim: #B30053;
+  --accent-magenta-glow: rgba(232, 0, 106, 0.30);
 
-  /* ── Supporting Accents ── */
-  --accent-violet: #8B5CF6;
-  --accent-acid:   #CCFF00;
+  --accent-lavender:  #9D8FFF;
+  --accent-lavender-dim: #7B6CE0;
+  --accent-lavender-glow: rgba(157, 143, 255, 0.25);
+
+  --accent-cyan:  #00EEFF;
+  --accent-cyan-dim: #00BFD0;
+  --accent-cyan-glow: rgba(0, 238, 255, 0.25);
+
+  --accent-acid:  #AAFF00;
+  --accent-acid-dim: #88CC00;
+  --accent-acid-glow: rgba(170, 255, 0, 0.25);
+
+  /* ── Legacy aliases (keep existing components working) ── */
+  --accent-primary:      var(--accent-magenta);
+  --accent-primary-dim:  var(--accent-magenta-dim);
+  --accent-primary-glow: var(--accent-magenta-glow);
+  --accent-secondary:    var(--accent-cyan);
+  --accent-secondary-dim: var(--accent-cyan-dim);
+  --accent-secondary-glow: var(--accent-cyan-glow);
+  --accent-violet:  var(--accent-lavender);
   --accent-crimson: #FF4D6D;
+  --accent-pink:    var(--accent-magenta);
+  --pixel-border-dark:  #03030A;
+  --pixel-border-light: rgba(255,255,255,0.12);
 
-  /* ── Legacy aliases (Button compat) ── */
-  --accent-pink:        #FF006E;
-  --accent-cyan:        #00F5FF;
-  --pixel-border-dark:  #05050A;
-  --pixel-border-light: rgba(255,255,255,0.15);
-
-  /* ── Text Hierarchy ── */
-  --text-primary:   #FFFFFF;
-  --text-secondary: #B4B4C8;
-  --text-tertiary:  #7F7F99;
-  --text-faint:     #4A4A5A;
+  /* ── Text ── */
+  --text-primary:   #F2F2F5;
+  --text-secondary: #A8A8BE;
+  --text-tertiary:  #6A6A85;
+  --text-faint:     #3A3A52;
 
   /* ── Typography ── */
-  /* Syne: geometric/experimental display — stronger personality than Space Grotesk */
   --font-display: 'Syne', 'Space Grotesk', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', 'IBM Plex Mono', monospace;
-  /* Pixelify Sans: pixel labels only — NOT for body text */
-  --font-pixel:   'Pixelify Sans', 'Outfit', monospace;
+  --font-pixel:   'Pixelify Sans', monospace;
 
   /* ── Type Scale (fluid) ── */
-  --text-xs:  clamp(0.70rem, 0.65rem + 0.15vw, 0.75rem);
-  --text-sm:  clamp(0.80rem, 0.75rem + 0.20vw, 0.875rem);
-  --text-base:clamp(0.90rem, 0.85rem + 0.25vw, 1rem);
-  --text-lg:  clamp(1.00rem, 0.95rem + 0.30vw, 1.125rem);
-  --text-xl:  clamp(1.10rem, 1.00rem + 0.40vw, 1.25rem);
-  --text-2xl: clamp(1.35rem, 1.20rem + 0.60vw, 1.5rem);
-  --text-3xl: clamp(1.75rem, 1.50rem + 1.00vw, 1.875rem);
-  --text-4xl: clamp(2.00rem, 1.75rem + 1.25vw, 2.5rem);
-  --text-5xl: clamp(2.50rem, 2.00rem + 2.00vw, 3.5rem);
-  --text-6xl: clamp(3.00rem, 2.50rem + 3.00vw, 5rem);
-  --text-7xl: clamp(4.00rem, 3.00rem + 5.00vw, 7rem);
+  --text-xs:   clamp(0.68rem, 0.63rem + 0.15vw, 0.72rem);
+  --text-sm:   clamp(0.78rem, 0.73rem + 0.18vw, 0.84rem);
+  --text-base: clamp(0.88rem, 0.83rem + 0.22vw, 0.96rem);
+  --text-lg:   clamp(1.00rem, 0.94rem + 0.28vw, 1.10rem);
+  --text-xl:   clamp(1.12rem, 1.05rem + 0.35vw, 1.25rem);
+  --text-2xl:  clamp(1.30rem, 1.18rem + 0.55vw, 1.50rem);
+  --text-3xl:  clamp(1.65rem, 1.45rem + 0.90vw, 1.90rem);
+  --text-4xl:  clamp(2.00rem, 1.70rem + 1.20vw, 2.50rem);
+  --text-5xl:  clamp(2.40rem, 1.90rem + 1.90vw, 3.50rem);
+  --text-6xl:  clamp(2.90rem, 2.20rem + 2.80vw, 5.00rem);
+  --text-7xl:  clamp(3.80rem, 2.60rem + 4.80vw, 7.00rem);
 
   /* ── Pixel System ── */
-  /* Consistent pixel unit — all pixel UI elements are multiples of this */
-  --px-unit:   4px;
-  --px-2:      8px;
+  --px-unit:    4px;
+  --px-2:       8px;
   --px-3:      12px;
   --px-4:      16px;
-  /* Pixel border thickness */
-  --px-border: 2px;
-  /* Pixel corner bracket size */
-  --px-corner: 12px;
-
-  /* ── Spacing Scale ── */
-  --space-1:  0.25rem;
-  --space-2:  0.50rem;
-  --space-3:  0.75rem;
-  --space-4:  1.00rem;
-  --space-6:  1.50rem;
-  --space-8:  2.00rem;
-  --space-10: 2.50rem;
-  --space-12: 3.00rem;
-  --space-16: 4.00rem;
-  --space-20: 5.00rem;
-  --space-24: 6.00rem;
-  --space-32: 8.00rem;
+  --px-border:  2px;
+  --px-corner: 10px;
 
   /* ── Layout ── */
-  --max-width:        1400px;
-  --max-width-narrow: 900px;
-  --nav-height:       4.5rem;
+  --max-width:         1440px;
+  --max-width-narrow:  900px;
+  --nav-width:         72px;   /* vertical nav width */
+  --nav-height:        4.5rem; /* kept for mobile fallback */
 
-  /* ── Radius ── */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.50rem;
-  --radius-lg: 1.00rem;
+  /* ── Spacing ── */
+  --space-1:  0.25rem;  --space-2:  0.5rem;
+  --space-3:  0.75rem;  --space-4:  1rem;
+  --space-6:  1.5rem;   --space-8:  2rem;
+  --space-10: 2.5rem;   --space-12: 3rem;
+  --space-16: 4rem;     --space-20: 5rem;
+  --space-24: 6rem;     --space-32: 8rem;
 
-  /* ── Motion Scale ── */
-  --duration-fast:     120ms;
-  --duration-base:     240ms;
-  --duration-slow:     420ms;
-  --duration-dramatic: 800ms;
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* ── Motion ── */
+  --dur-fast:     100ms;
+  --dur-base:     220ms;
+  --dur-slow:     400ms;
+  --dur-dramatic: 780ms;
+  --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
 
-  /* ── Transitions (shorthand) ── */
-  --transition-fast: var(--duration-fast) ease;
-  --transition-base: var(--duration-base) ease;
-  --transition-slow: var(--duration-slow) ease;
+  /* Legacy compat */
+  --transition-fast: var(--dur-fast) ease;
+  --transition-base: var(--dur-base) ease;
+  --transition-slow: var(--dur-slow) ease;
+  --duration-fast:     var(--dur-fast);
+  --duration-base:     var(--dur-base);
+  --duration-slow:     var(--dur-slow);
+  --duration-dramatic: var(--dur-dramatic);
+  --ease-out-expo:     var(--ease-expo);
 
-  /* ── Shadows / Glows ── */
-  --shadow-sm:  0 2px 8px rgba(0,0,0,0.30);
-  --shadow-md:  0 4px 16px rgba(0,0,0,0.40);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.50);
-  --shadow-glow-primary:   0 0 24px var(--accent-primary-glow);
-  --shadow-glow-secondary: 0 0 24px var(--accent-secondary-glow);
-  /* Pixel offset shadow (used for pixel-button active state) */
+  /* ── Shadows ── */
+  --shadow-sm:  0 2px 8px  rgba(0,0,0,0.35);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.45);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.55);
+  --shadow-glow-primary:   0 0 24px var(--accent-magenta-glow);
+  --shadow-glow-secondary: 0 0 24px var(--accent-cyan-glow);
   --px-shadow: 3px 3px 0 var(--pixel-border-dark);
+
+  /* ── Radius (minimal, pixel-friendly) ── */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
 }
 
-/* ── Pixel Rendering ── */
+/* ── Pixel rendering helper ── */
 .pixel-sprite,
 .pixel-perfect,
 .pixel-decoration {

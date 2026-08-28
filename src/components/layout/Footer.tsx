@@ -1,76 +1,138 @@
-import { GitBranch, Link2, Mail, Heart } from 'lucide-react';
+import { motion } from 'motion/react';
+import { GitBranch, Link2, Mail } from 'lucide-react';
 
-/**
- * Footer — Minimal and Clean
- * Removes game aesthetic, keeps it elegant
- */
+/* ─────────────────────────────────────────────
+   Footer — Blueprint §42
+   
+   Minimal. No decorative excess.
+   
+   NUR.YANFA.EXE
+   SOFTWARE ENGINEER
+   © 2026 MUHAMAD NUR YANFA
+   STATUS: ONLINE
+   ───────────────────────────────────────────── */
+
+const SOCIALS = [
+  { icon: GitBranch, label: 'GitHub',   href: 'https://github.com/nuryanfa',                  },
+  { icon: Link2,     label: 'LinkedIn', href: 'https://linkedin.com/in/muhamad-nur-yanfa',     },
+  { icon: Mail,      label: 'Email',    href: 'mailto:muhamadnuryanfa@example.com',            },
+] as const;
+
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/5 bg-[var(--bg-elevated)] mt-20">
-      <div className="container-observatory py-12">
-        
-        {/* Main footer content */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
-          
-          {/* Brand */}
-          <div className="flex flex-col items-center md:items-start gap-2">
+    <footer className="relative border-t border-white/5 overflow-hidden">
+      {/* Subtle top accent line */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, var(--accent-magenta) 30%, var(--accent-cyan) 70%, transparent 100%)',
+          opacity: 0.3,
+        }}
+      />
+
+      <div
+        className="w-full max-w-6xl mx-auto px-8 py-10"
+        style={{ paddingLeft: 'max(2rem, env(safe-area-inset-left))' }}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+
+          {/* ── Brand ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="space-y-2"
+          >
+            {/* Logo row */}
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 pixel-decoration bg-[var(--accent-primary)] flex items-center justify-center">
-                <div className="w-2 h-2 bg-[var(--bg-base)]" />
+              <div
+                className="w-6 h-6 pixel-decoration bg-[var(--accent-magenta)]
+                           flex items-center justify-center flex-shrink-0"
+              >
+                <div className="w-1.5 h-1.5 bg-[var(--bg-base)]" />
               </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-display font-bold text-lg tracking-tight text-[var(--text-primary)]">
-                  NUR YANFA
-                </span>
-                <span className="font-mono text-[10px] tracking-wider text-[var(--accent-primary)] uppercase">
-                  Software Engineer
-                </span>
-              </div>
+              <span
+                className="font-display font-extrabold tracking-tight text-[var(--text-primary)]"
+                style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)' }}
+              >
+                NUR.YANFA
+              </span>
             </div>
-          </div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-6">
-            <a
-              href="https://github.com/nuryanfa"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
-              aria-label="GitHub"
+            {/* Sub-title */}
+            <p
+              className="font-mono uppercase tracking-[0.2em] text-[var(--text-tertiary)]"
+              style={{ fontSize: '0.68rem' }}
             >
-              <GitBranch size={20} />
-            </a>
-            <a
-              href="https://linkedin.com/in/muhamad-nur-yanfa"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Link2 size={20} />
-            </a>
-            <a
-              href="mailto:muhamadnuryanfa@example.com"
-              className="p-2 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
-              aria-label="Email"
-            >
-              <Mail size={20} />
-            </a>
-          </div>
-        </div>
+              Software Engineer
+            </p>
 
-        {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/5">
-          <p className="text-[var(--text-tertiary)] text-sm font-mono">
-            © {currentYear} Muhamad Nur Yanfa. All rights reserved.
-          </p>
+            {/* Status badge */}
+            <div className="flex items-center gap-2 pt-1">
+              <motion.div
+                className="w-[5px] h-[5px] pixel-decoration bg-[var(--accent-acid)]"
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+              />
+              <span
+                className="font-pixel uppercase text-[var(--accent-acid)]"
+                style={{ fontSize: '7px', letterSpacing: '0.2em' }}
+              >
+                Online
+              </span>
+            </div>
+          </motion.div>
 
-          <p className="text-[var(--text-tertiary)] text-sm flex items-center gap-2">
-            Built with <Heart size={14} className="text-[var(--accent-primary)] inline-block" /> 
-            using React + TypeScript
-          </p>
+          {/* ── Social links ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex items-center gap-5 md:justify-center"
+          >
+            {SOCIALS.map(({ icon: Icon, label, href }) => (
+              <motion.a
+                key={label}
+                href={href}
+                target={href.startsWith('http') ? '_blank' : undefined}
+                rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                aria-label={label}
+                data-cursor="link"
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.15 }}
+                className="text-[var(--text-faint)] hover:text-[var(--text-primary)] transition-colors duration-150"
+              >
+                <Icon size={18} />
+              </motion.a>
+            ))}
+          </motion.div>
+
+          {/* ── Copyright + build note ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-1 md:text-right"
+          >
+            <p
+              className="font-mono text-[var(--text-faint)] tracking-wide"
+              style={{ fontSize: '0.68rem' }}
+            >
+              © {year} Muhamad Nur Yanfa
+            </p>
+            <p
+              className="font-mono text-[var(--text-faint)] tracking-wide"
+              style={{ fontSize: '0.68rem' }}
+            >
+              React · TypeScript · Vite
+            </p>
+          </motion.div>
         </div>
       </div>
     </footer>

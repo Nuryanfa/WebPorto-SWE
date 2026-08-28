@@ -149,36 +149,29 @@ export function Hero() {
                         bg-[radial-gradient(circle,rgba(139,92,246,0.08)_0%,transparent_70%)]" />
       </div>
 
-      {/* ── Scattered pixel decorations layer ── */}
+      {/* ── Pixel decorations — meaningful positions only, no random squares ── */}
       <div
         ref={pixelDecoRef}
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none overflow-hidden"
       >
-        {/* Large diamond accent — top-right quadrant */}
-        <div className="px-deco opacity-0 absolute top-[14%] right-[28%] rotate-45
-                        w-5 h-5 border-2 border-[var(--accent-primary)]" />
-        {/* Solid squares — left field */}
-        <div className="px-deco opacity-0 absolute top-[22%] left-[4%]
-                        w-3 h-3 bg-[var(--accent-primary)] pixel-decoration" />
-        <div className="px-deco opacity-0 absolute top-[42%] left-[7%]
-                        w-2 h-2 bg-[var(--accent-secondary)] pixel-decoration" />
-        <div className="px-deco opacity-0 absolute top-[60%] left-[3%]
-                        w-1 h-1 bg-[var(--accent-violet)] pixel-decoration" />
-        {/* Star cluster — top area */}
-        <PixelStar className="px-deco opacity-0 absolute top-[8%]  left-[28%]" color="var(--accent-secondary)" size={10} />
-        <PixelStar className="px-deco opacity-0 absolute top-[12%] left-[33%]" color="var(--accent-primary)"   size={6}  />
-        <PixelStar className="px-deco opacity-0 absolute top-[9%]  left-[36%]" color="var(--accent-acid)"      size={8}  />
-        {/* Right-side accents */}
-        <div className="px-deco opacity-0 absolute bottom-[32%] right-[3%]
-                        w-3 h-3 bg-[var(--accent-secondary)] pixel-decoration" />
-        <div className="px-deco opacity-0 absolute bottom-[20%] right-[8%]
-                        w-2 h-2 bg-[var(--accent-violet)] pixel-decoration" />
-        <PixelStar className="px-deco opacity-0 absolute bottom-[40%] right-[18%]" color="var(--accent-primary)" size={8} />
-        {/* Small dot cluster near name */}
-        <div className="px-deco opacity-0 absolute top-[55%] left-[48%]
+        {/* Diamond outline — anchors top-right of name area */}
+        <div className="px-deco opacity-0 absolute top-[16%] right-[30%]
+                        w-4 h-4 rotate-45 border-2 border-[var(--accent-primary)]
+                        pixel-decoration" />
+
+        {/* Star cluster — sits above the name, evokes "spark" energy */}
+        <PixelStar className="px-deco opacity-0 absolute top-[7%] left-[30%]"  color="var(--accent-secondary)" size={10} />
+        <PixelStar className="px-deco opacity-0 absolute top-[11%] left-[35%]" color="var(--accent-primary)"   size={6}  />
+        <PixelStar className="px-deco opacity-0 absolute top-[8%]  left-[38%]" color="var(--accent-acid)"      size={8}  />
+
+        {/* Single accent right — balances character zone */}
+        <PixelStar className="px-deco opacity-0 absolute bottom-[38%] right-[20%]" color="var(--accent-primary)" size={8} />
+
+        {/* Two tiny dots beside the role label — structural, not scattered */}
+        <div className="px-deco opacity-0 absolute top-[54%] left-[47%]
                         w-1 h-1 bg-[var(--accent-secondary)] pixel-decoration" />
-        <div className="px-deco opacity-0 absolute top-[58%] left-[50%]
+        <div className="px-deco opacity-0 absolute top-[57%] left-[49%]
                         w-1 h-1 bg-[var(--accent-primary)] pixel-decoration" />
       </div>
 
@@ -267,7 +260,12 @@ export function Hero() {
 
             {/* CTAs */}
             <div ref={ctaRef} style={{ opacity: 0 }} className="flex flex-wrap items-center gap-4 mb-10">
-              <Button href="#projects" variant="primary">
+              <Button
+                variant="primary"
+                onClick={() => {
+                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
                 Explore My Work
               </Button>
               <Button href="/contact" variant="outline" arrow={false}>

@@ -2,199 +2,180 @@ import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { Send, GitBranch, Link2, Mail, MessageSquare } from 'lucide-react';
 
-/**
- * Contact — Modern Creative Composition
- * Removes terminal aesthetic
- * Creates visually engaging contact section with pixel decorations
- */
 export function Contact() {
   return (
     <section id="contact" className="section-spacing relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-20 left-0 w-64 h-64 bg-[var(--accent-primary)] opacity-10 blur-3xl rounded-full" />
-      <div className="absolute bottom-20 right-0 w-64 h-64 bg-[var(--accent-secondary)] opacity-10 blur-3xl rounded-full" />
 
-      {/* Floating pixel decorations */}
-      <motion.div
-        className="absolute top-1/4 right-1/4 w-4 h-4 pixel-decoration bg-[var(--accent-primary)]"
-        animate={{ y: [0, -20, 0], opacity: [0.3, 1, 0.3] }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-1/3 left-1/4 w-3 h-3 pixel-decoration bg-[var(--accent-secondary)]"
-        animate={{ y: [0, 15, 0], opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-      />
+      {/* Magenta atmosphere — semantic color for Contact */}
+      <div aria-hidden="true"
+           className="absolute -top-1/4 -left-1/4 w-[60vw] h-[60vw] max-w-[600px] pointer-events-none
+                      rounded-full blur-[120px] opacity-[0.07]
+                      bg-[var(--accent-primary)]" />
+      <div aria-hidden="true"
+           className="absolute bottom-0 right-0 w-[40vw] h-[40vw] max-w-[400px] pointer-events-none
+                      rounded-full blur-[100px] opacity-[0.05]
+                      bg-[var(--accent-primary)]" />
 
       <div className="container-observatory relative z-10">
-        
-        {/* Section Header */}
+
+        {/* ── Section label ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mb-16 text-center"
         >
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-3 h-3 pixel-decoration bg-[var(--accent-primary)]" />
-            <span className="font-mono text-xs md:text-sm text-[var(--accent-primary)] uppercase tracking-widest">
-              Get In Touch
-            </span>
-            <div className="w-3 h-3 pixel-decoration bg-[var(--accent-primary)]" />
-          </div>
+          <span className="section-label text-[var(--accent-primary)] mb-6 block justify-center">
+            Get In Touch
+          </span>
 
-          <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-7xl text-[var(--text-primary)] mb-6 leading-tight">
+          <h2
+            className="font-display font-extrabold leading-[1.0] tracking-tight
+                       text-[var(--text-primary)] mb-6"
+            style={{ fontSize: 'clamp(2.4rem, 5vw + 1rem, 5rem)' }}
+          >
             Let's Build
-            <span className="block bg-gradient-to-r from-[var(--accent-primary)] via-[var(--accent-secondary)] to-[var(--accent-violet)] bg-clip-text text-transparent">
+            <span className="block text-[var(--accent-primary)]">
               Something Great
             </span>
           </h2>
 
-          <p className="text-[var(--text-secondary)] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Have a project in mind or just want to chat about tech? 
-            I'm always open to discussing new opportunities and ideas.
+          <p className="text-[var(--text-secondary)] text-lg max-w-xl mx-auto leading-relaxed">
+            Have a project in mind or want to discuss an opportunity?
+            I'm always open to interesting conversations.
           </p>
         </motion.div>
 
-        {/* Contact Grid */}
+        {/* ── Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          
-          {/* Contact Links */}
+
+          {/* ── Contact links ── */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-1 space-y-6"
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-1 space-y-4"
           >
-            <h3 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-8">
-              Connect With Me
+            <h3 className="font-display font-bold text-xl text-[var(--text-primary)] mb-6">
+              Connect
             </h3>
 
-            {[
-              { icon: Mail, label: 'Email', value: 'muhamadnuryanfa@example.com', href: 'mailto:muhamadnuryanfa@example.com', color: 'var(--accent-primary)' },
-              { icon: GitBranch, label: 'GitHub', value: 'github.com/nuryanfa', href: 'https://github.com/nuryanfa', color: 'var(--text-primary)' },
-              { icon: Link2, label: 'LinkedIn', value: 'linkedin.com/in/muhamad-nur-yanfa', href: 'https://linkedin.com/in/muhamad-nur-yanfa', color: 'var(--accent-secondary)' },
-              { icon: MessageSquare, label: 'Discord', value: 'nuryanfa#0000', href: '#', color: 'var(--accent-violet)' },
-            ].map((contact, index) => (
+            {([
+              { icon: Mail,         label: 'Email',    value: 'muhamadnuryanfa@example.com', href: 'mailto:muhamadnuryanfa@example.com', color: 'var(--accent-primary)'   },
+              { icon: GitBranch,    label: 'GitHub',   value: 'github.com/nuryanfa',          href: 'https://github.com/nuryanfa',        color: 'var(--text-primary)'    },
+              { icon: Link2,        label: 'LinkedIn', value: 'muhamad-nur-yanfa',             href: 'https://linkedin.com/in/muhamad-nur-yanfa', color: 'var(--accent-secondary)' },
+              { icon: MessageSquare,label: 'Discord',  value: 'nuryanfa#0000',                 href: '#',                                  color: 'var(--accent-violet)'   },
+            ] as const).map((c, i) => (
               <motion.a
-                key={contact.label}
-                href={contact.href}
-                target={contact.href.startsWith('http') ? '_blank' : undefined}
-                rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                initial={{ opacity: 0, x: -20 }}
+                key={c.label}
+                href={c.href}
+                target={c.href.startsWith('http') ? '_blank' : undefined}
+                rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                initial={{ opacity: 0, x: -16 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ x: 10 }}
-                className="group flex items-center gap-4 p-4 bg-[var(--bg-elevated)] border border-white/5 rounded-lg hover:border-white/10 transition-all"
+                transition={{ delay: i * 0.08 }}
+                whileHover={{ x: 6 }}
+                className="group flex items-center gap-4 p-4
+                           bg-[var(--bg-elevated)]
+                           border border-white/5 hover:border-white/10
+                           px-frame transition-colors"
+                style={{ textDecoration: 'none' }}
               >
-                <div 
-                  className="w-12 h-12 rounded-lg flex items-center justify-center relative"
-                  style={{ backgroundColor: `${contact.color}20` }}
+                {/* Icon box — pixel corner via px-frame on inner div */}
+                <div
+                  className="w-10 h-10 flex items-center justify-center flex-shrink-0
+                             bg-[var(--bg-panel)] border border-white/8 px-frame"
+                  style={{ color: c.color }}
                 >
-                  <contact.icon size={24} style={{ color: contact.color }} />
-                  <div 
-                    className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-30 blur-md transition-opacity"
-                    style={{ backgroundColor: contact.color }}
-                  />
+                  <c.icon size={18} />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-mono text-xs text-[var(--text-tertiary)] uppercase tracking-widest">
-                    {contact.label}
+
+                <div className="min-w-0">
+                  <div className="font-pixel text-[9px] tracking-widest uppercase mb-0.5"
+                       style={{ color: c.color }}>
+                    {c.label}
                   </div>
-                  <div className="text-sm text-[var(--text-primary)] truncate group-hover:text-[var(--accent-primary)] transition-colors">
-                    {contact.value}
+                  <div className="text-sm font-mono text-[var(--text-secondary)]
+                                  truncate group-hover:text-[var(--text-primary)] transition-colors">
+                    {c.value}
                   </div>
                 </div>
               </motion.a>
             ))}
           </motion.div>
 
-          {/* Quick Message Form */}
+          {/* ── Message form ── */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.55, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-2"
           >
-            <div className="p-8 bg-[var(--bg-elevated)] border border-white/5 rounded-xl">
-              <h3 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-6">
+            {/* Card — stepped corner via px-frame, no rounded-lg */}
+            <div className="p-8 bg-[var(--bg-elevated)] border border-white/5 px-frame">
+              <h3 className="font-display font-bold text-xl text-[var(--text-primary)] mb-6">
                 Send a Message
               </h3>
 
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-                      Your Name
-                    </label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      className="w-full px-4 py-3 bg-[var(--bg-base)] border border-white/10 rounded-lg text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-colors placeholder:text-[var(--text-faint)]"
-                      placeholder="John Doe"
-                    />
-                  </div>
+              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
 
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-                      Your Email
-                    </label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      className="w-full px-4 py-3 bg-[var(--bg-base)] border border-white/10 rounded-lg text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-colors placeholder:text-[var(--text-faint)]"
-                      placeholder="john@example.com"
-                    />
-                  </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <FormField id="name"  label="Name"  type="text"  placeholder="Your name" />
+                  <FormField id="email" label="Email" type="email" placeholder="your@email.com" />
                 </div>
 
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-                    Subject
-                  </label>
-                  <input 
-                    type="text" 
-                    id="subject" 
-                    className="w-full px-4 py-3 bg-[var(--bg-base)] border border-white/10 rounded-lg text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-colors placeholder:text-[var(--text-faint)]"
-                    placeholder="Project Inquiry"
-                  />
-                </div>
+                <FormField id="subject" label="Subject" type="text" placeholder="Project inquiry" />
 
+                {/* Textarea */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                  <label htmlFor="message"
+                         className="block font-pixel text-[9px] tracking-widest uppercase
+                                    text-[var(--text-tertiary)] mb-2">
                     Message
                   </label>
-                  <textarea 
-                    id="message" 
+                  <textarea
+                    id="message"
                     rows={5}
-                    className="w-full px-4 py-3 bg-[var(--bg-base)] border border-white/10 rounded-lg text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-primary)] transition-colors resize-none placeholder:text-[var(--text-faint)]"
                     placeholder="Tell me about your project..."
+                    className="px-input w-full resize-none"
+                    style={{ minHeight: '7.5rem' }}
                   />
                 </div>
 
-                <Button
-                  className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-display font-semibold rounded-lg hover:shadow-[0_0_30px_rgba(255,0,110,0.3)] transition-all group"
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <Send size={18} />
-                    Send Message
-                    <motion.span
-                      animate={{ x: [0, 3, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      className="inline-block"
-                    >
-                      →
-                    </motion.span>
-                  </span>
+                <Button variant="primary" arrow={false}>
+                  <Send size={14} />
+                  Send Message
                 </Button>
               </form>
             </div>
           </motion.div>
+
         </div>
       </div>
     </section>
+  );
+}
+
+/* ── Reusable pixel-styled form field ── */
+function FormField({
+  id, label, type, placeholder,
+}: { id: string; label: string; type: string; placeholder: string }) {
+  return (
+    <div>
+      <label htmlFor={id}
+             className="block font-pixel text-[9px] tracking-widest uppercase
+                        text-[var(--text-tertiary)] mb-2">
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        className="px-input w-full"
+      />
+    </div>
   );
 }

@@ -1,6 +1,7 @@
-import { motion } from 'motion/react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/Button';
-import { primaryCapabilities } from '@/data/skills';
+import { primaryCapabilities, techStack } from '@/data/skills';
 
 /* ─────────────────────────────────────────────
    About Section — Editorial + Numbered Capabilities
@@ -15,6 +16,8 @@ import { primaryCapabilities } from '@/data/skills';
    ───────────────────────────────────────────── */
 
 export function AboutPreview() {
+  const [techOpen, setTechOpen] = useState(false);
+
   return (
     <section id="about" className="section-spacing relative overflow-hidden">
 
@@ -108,6 +111,83 @@ export function AboutPreview() {
           </div>
 
         </div>
+
+        {/* ── Inline tech stack — collapsible, visually secondary ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="mt-16 pt-8 border-t border-white/5"
+        >
+          {/* Toggle row */}
+          <button
+            onClick={() => setTechOpen(v => !v)}
+            className="flex items-center gap-3 text-left group mb-4 cursor-pointer bg-transparent border-none p-0"
+            aria-expanded={techOpen}
+          >
+            {/* Pixel arrow indicator */}
+            <motion.span
+              animate={{ rotate: techOpen ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="font-pixel text-[9px] text-[var(--accent-secondary)] select-none"
+            >
+              ▶
+            </motion.span>
+            <span className="font-pixel text-[9px] tracking-widest uppercase
+                             text-[var(--text-faint)] group-hover:text-[var(--accent-secondary)]
+                             transition-colors">
+              {techOpen ? 'Hide Tech Stack' : 'View Tech Stack'}
+            </span>
+          </button>
+
+          <AnimatePresence>
+            {techOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                className="overflow-hidden"
+              >
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-4 pb-2">
+                  {techStack.map((group, gi) => (
+                    <motion.div
+                      key={group.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: gi * 0.05 }}
+                      className="space-y-2"
+                    >
+                      {/* Group label */}
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          aria-hidden="true"
+                          className="w-[3px] h-2.5 pixel-decoration flex-shrink-0"
+                          style={{ background: group.color }}
+                        />
+                        <span
+                          className="font-pixel text-[8px] tracking-widest uppercase"
+                          style={{ color: group.color }}
+                        >
+                          {group.label}
+                        </span>
+                      </div>
+
+                      {/* Tags inline */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {group.tools.map((tool) => (
+                          <span key={tool} className="px-tag">{tool}</span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
       </div>
     </section>
   );

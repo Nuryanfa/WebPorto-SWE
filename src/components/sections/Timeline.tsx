@@ -30,8 +30,9 @@ export function Timeline() {
 
   return (
     <section id="experience" className="section-spacing relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/3 right-0 w-64 h-64 bg-[var(--accent-secondary)] opacity-5 blur-3xl rounded-full" />
+      {/* Violet atmosphere — semantic color for Experience */}
+      <div aria-hidden="true" className="absolute top-1/3 right-0 w-64 h-64 bg-[var(--accent-violet)] opacity-5 blur-3xl rounded-full pointer-events-none" />
+      <div aria-hidden="true" className="absolute bottom-0 left-0 w-64 h-64 bg-[var(--accent-violet)] opacity-5 blur-3xl rounded-full pointer-events-none" />
 
       <div className="container-observatory relative z-10">
         
@@ -84,62 +85,59 @@ export function Timeline() {
                     isEven ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}
                 >
-                  {/* Icon (centered on timeline) */}
+                  {/* Icon — pixel square, not circle */}
                   <div className="absolute left-8 md:left-1/2 md:-translate-x-1/2 z-10">
                     <motion.div
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      className="w-16 h-16 rounded-full flex items-center justify-center border-4 border-[var(--bg-base)] relative"
+                      whileHover={{ scale: 1.15 }}
+                      className="w-12 h-12 flex items-center justify-center
+                                 border-2 border-[var(--bg-base)] relative"
                       style={{ backgroundColor: accentColor }}
                     >
-                      <Icon size={24} className="text-white" />
-                      <motion.div
-                        className="absolute inset-0 rounded-full opacity-30 blur-md"
-                        style={{ backgroundColor: accentColor }}
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
+                      <Icon size={20} className="text-white" />
                     </motion.div>
                   </div>
 
                   {/* Content card */}
-                  <div className={`ml-24 md:ml-0 w-full md:w-[calc(50%-4rem)] ${isEven ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
+                  <div className={`ml-20 md:ml-0 w-full md:w-[calc(50%-4rem)] ${isEven ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
                     <motion.div
-                      whileHover={{ y: -5 }}
-                      className="p-6 bg-[var(--bg-elevated)] border border-white/5 rounded-xl hover:border-white/10 transition-all group"
+                      whileHover={{ y: -4 }}
+                      className="p-6 bg-[var(--bg-elevated)] border border-white/5
+                                 px-frame hover:border-white/10 transition-all group"
                     >
                       {/* Date */}
                       <div className={`flex items-center gap-2 mb-3 ${isEven ? 'md:justify-end' : ''}`}>
-                        <div 
-                          className="w-2 h-2 pixel-decoration"
-                          style={{ backgroundColor: accentColor }}
-                        />
-                        <span 
-                          className="font-mono text-xs font-bold uppercase tracking-widest"
-                          style={{ color: accentColor }}
-                        >
+                        <div className="w-2 h-2 pixel-decoration"
+                             style={{ backgroundColor: accentColor }} />
+                        <span className="font-pixel text-[9px] uppercase tracking-widest"
+                              style={{ color: accentColor }}>
                           {entry.date}
                         </span>
                       </div>
 
                       {/* Title & Subtitle */}
-                      <h3 className="font-display text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">
+                      <h3 className="font-display text-xl md:text-2xl font-bold
+                                     text-[var(--text-primary)] mb-2
+                                     group-hover:text-[var(--accent-violet)] transition-colors">
                         {entry.title}
                       </h3>
                       <p className="text-[var(--text-tertiary)] font-medium mb-3">
                         {entry.subtitle}
                       </p>
 
-                      {/* Description */}
                       {entry.description && (
                         <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
                           {entry.description}
                         </p>
                       )}
 
-                      {/* Type badge */}
-                      <div className={`mt-4 inline-flex items-center gap-2 px-3 py-1 bg-[var(--bg-base)] border border-white/5 rounded-full ${isEven ? 'md:float-right' : ''}`}>
-                        <Icon size={12} style={{ color: accentColor }} />
-                        <span className="text-xs font-mono capitalize" style={{ color: accentColor }}>
+                      {/* Type badge — no rounded-full */}
+                      <div className={`mt-4 inline-flex items-center gap-2
+                                       px-2.5 py-1 bg-[var(--bg-base)]
+                                       border border-white/5
+                                       ${isEven ? 'md:float-right' : ''}`}>
+                        <Icon size={10} style={{ color: accentColor }} />
+                        <span className="font-pixel text-[8px] capitalize"
+                              style={{ color: accentColor }}>
                           {entry.type}
                         </span>
                       </div>

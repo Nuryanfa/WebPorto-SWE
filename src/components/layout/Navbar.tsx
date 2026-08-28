@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Home',       href: '/'             },
-  { label: 'About',      href: '/about'         },
-  { label: 'Work',       href: '/projects'      },
-  { label: 'Experience', href: '/#experience'   },
-  { label: 'Contact',    href: '/contact'       },
+  { label: 'Home',       href: '/',            index: '01' },
+  { label: 'About',      href: '/about',        index: '02' },
+  { label: 'Work',       href: '/projects',     index: '03' },
+  { label: 'Experience', href: '/#experience',  index: '04' },
+  { label: 'Contact',    href: '/contact',      index: '05' },
 ];
 
 export function Navbar() {
@@ -134,8 +134,18 @@ export function Navbar() {
                 key={link.href}
                 to={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="relative group"
+                className="relative group flex items-center gap-1.5"
               >
+                {/* Pixel index — tiny, decorative, pixel font */}
+                <span
+                  className="font-pixel text-[8px] leading-none tracking-wider
+                             text-[var(--text-faint)] group-hover:text-[var(--accent-primary)]
+                             transition-colors duration-150 select-none"
+                  aria-hidden="true"
+                >
+                  {link.index}
+                </span>
+
                 <motion.span
                   className={`font-display text-sm transition-colors ${
                     isActive(link.href)
@@ -148,11 +158,12 @@ export function Navbar() {
                   {link.label}
                 </motion.span>
 
-                {/* Active underline (shared layoutId so it slides between items) */}
+                {/* Active underline */}
                 {isActive(link.href) && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px]
+                               bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]"
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -160,18 +171,13 @@ export function Navbar() {
                 {/* Hover underline (only when not active) */}
                 {!isActive(link.href) && (
                   <motion.div
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[var(--text-faint)] origin-left"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px]
+                               bg-[var(--text-faint)] origin-left"
                     initial={{ scaleX: 0 }}
                     whileHover={{ scaleX: 1 }}
                     transition={{ duration: 0.2 }}
                   />
                 )}
-
-                {/* Pixel dot on hover */}
-                <motion.div
-                  className="absolute -top-2 -right-2 w-1 h-1 bg-[var(--accent-secondary)] pixel-decoration opacity-0 group-hover:opacity-100"
-                  transition={{ duration: 0.2 }}
-                />
               </Link>
             ))}
           </div>
@@ -234,7 +240,12 @@ export function Navbar() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className="flex items-center gap-3 group"
                   >
-                    <div className="w-2 h-2 pixel-decoration bg-[var(--accent-primary)] group-hover:bg-[var(--accent-secondary)] transition-colors" />
+                    <span
+                      className="font-pixel text-[9px] text-[var(--accent-primary)] select-none"
+                      aria-hidden="true"
+                    >
+                      {link.index}
+                    </span>
                     <span
                       className={`font-display text-2xl tracking-tight transition-colors ${
                         isActive(link.href)

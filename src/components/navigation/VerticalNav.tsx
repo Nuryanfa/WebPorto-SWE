@@ -5,29 +5,17 @@ import { Menu, X } from 'lucide-react';
 import { useSceneNav } from './SceneTransitionController';
 
 /* ─────────────────────────────────────────────
-   VerticalNav — compact 130px rail
+   VerticalNav — 160px Japanese creative rail
    
-   Visual concept: fictional Japanese interface panel.
-   Not a SaaS sidebar. Not a dashboard.
-   
-   Desktop layout (top → bottom):
-     ┌────────────────┐
-     │  NUR           │  ← brand stacked
-     │  YANFA         │
-     │                │
-     │  SOFTWARE      │  ← subtitle
-     │  ENGINEER      │
-     │ ─────────────  │
-     │  01 IDENTITY   │  ← nav items
-     │  02 PROFILE    │
-     │  03 WORK ━━━━  │  ← active indicator
-     │  04 EXPERIENCE │
-     │  05 CONTACT    │
-     │ ─────────────  │
-     │  ● ONLINE      │  ← status
-     └────────────────┘
-   
-   Mobile: compact top bar + full-screen overlay.
+   Layout fixes:
+   • 160px width — enough for EXPERIENCE label
+   • No overflow:hidden — nothing clipped
+   • px-4 padding (16px each side → 128px usable)
+   • Brand at fixed sizes that fit (not fluid clamp)
+   • SOFTWARE ENGINEER on one line, nowrap
+   • Nav items: larger, readable labels
+   • Active: left border + bg tint + right dot
+   • Hover: label shifts x, accent appears
    ───────────────────────────────────────────── */
 
 const NAV_ITEMS = [
@@ -40,7 +28,7 @@ const NAV_ITEMS = [
 
 export function VerticalNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const location  = useLocation();
+  const location       = useLocation();
   const { navigateTo } = useSceneNav();
 
   useEffect(() => { setMobileOpen(false); }, [location.pathname]);
@@ -66,147 +54,225 @@ export function VerticalNav() {
   return (
     <>
       {/* ════════════════════════════════════════
-          DESKTOP RAIL — 130px, ≥900px only
+          DESKTOP RAIL
+          160px fixed, ≥900px viewport
           ════════════════════════════════════════ */}
       <motion.nav
-        initial={{ x: -150, opacity: 0 }}
+        initial={{ x: -180, opacity: 0 }}
         animate={{ x: 0,    opacity: 1 }}
         transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        className="vnav-desktop fixed top-0 left-0 h-full z-50 flex-col
-                   select-none overflow-hidden"
+        className="vnav-desktop fixed top-0 left-0 h-full z-50"
         style={{
           width: 'var(--nav-width)',
-          background: 'rgba(14,15,20,0.92)',
-          backdropFilter: 'blur(12px)',
-          borderRight: '1px solid rgba(245,243,240,0.05)',
+          /* No overflow:hidden — never clip content */
+          overflow: 'visible',
+          background: 'rgba(10,11,15,0.94)',
+          backdropFilter: 'blur(16px) saturate(1.2)',
+          /* Subtle right border — separates rail from content */
+          borderRight: '1px solid rgba(245,243,240,0.06)',
+          display: 'flex',
+          flexDirection: 'column',
         }}
         aria-label="Main navigation"
       >
-        <div className="flex flex-col h-full pt-7 pb-6 px-5">
+        {/* Inner scroll container — clips only if content overflows vertically */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            padding: '28px 16px 24px',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            /* Hide scrollbar but keep scrollability */
+            scrollbarWidth: 'none',
+          }}
+        >
 
-          {/* ── Brand block ── */}
+          {/* ── BRAND ── */}
           <Link
             to="/"
             onClick={(e) => handleClick(e, '/')}
-            className="block mb-7 group"
             aria-label="Home"
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}
           >
-            {/* NUR / YANFA stacked in large display */}
+            {/* Small pixel accent mark */}
             <div
-              className="font-display font-extrabold leading-[0.88] tracking-tight"
+              className="pixel-decoration"
               style={{
-                fontSize: 'clamp(1.4rem, 2vw, 1.7rem)',
+                width: 8,
+                height: 8,
+                background: activeItem.accent,
+                marginBottom: 10,
+                transition: 'background 0.3s ease',
+              }}
+            />
+
+            {/* NUR — large display */}
+            <div
+              className="font-display font-extrabold"
+              style={{
+                fontSize: '1.55rem',
+                lineHeight: 1,
+                letterSpacing: '-0.03em',
                 color: 'var(--text-primary)',
+                whiteSpace: 'nowrap',
               }}
             >
-              NUR<br />
-              <span style={{ color: activeItem.accent }}>YANFA</span>
+              NUR
             </div>
-            {/* SOFTWARE ENGINEER below */}
+
+            {/* YANFA — accent coloured */}
             <div
-              className="font-pixel uppercase mt-2"
+              className="font-display font-extrabold"
               style={{
-                fontSize: '7px',
-                letterSpacing: '0.16em',
-                color: 'var(--text-faint)',
-                lineHeight: 1.6,
+                fontSize: '1.55rem',
+                lineHeight: 1,
+                letterSpacing: '-0.03em',
+                color: activeItem.accent,
+                whiteSpace: 'nowrap',
+                transition: 'color 0.3s ease',
+                marginBottom: 8,
               }}
             >
-              SOFTWARE<br />ENGINEER
+              YANFA
+            </div>
+
+            {/* SOFTWARE ENGINEER — single line, small mono */}
+            <div
+              className="font-mono"
+              style={{
+                fontSize: '0.6rem',
+                letterSpacing: '0.14em',
+                color: 'var(--text-faint)',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Software Engineer
             </div>
           </Link>
 
           {/* ── Hairline separator ── */}
           <div
-            className="mb-5"
-            style={{ height: '1px', background: 'rgba(245,243,240,0.07)' }}
             aria-hidden="true"
+            style={{
+              height: 1,
+              background: 'rgba(245,243,240,0.07)',
+              marginBottom: 20,
+              flexShrink: 0,
+            }}
           />
 
-          {/* ── Nav items ── */}
-          <div className="flex flex-col gap-0.5 flex-1">
-            {NAV_ITEMS.map((item) => {
-              const active = isActive(item.href);
-              return (
-                <NavRailItem
-                  key={item.href}
-                  item={item}
-                  active={active}
-                  onClick={handleClick}
-                />
-              );
-            })}
-          </div>
+          {/* ── NAV ITEMS ── */}
+          <nav
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              flex: 1,
+            }}
+          >
+            {NAV_ITEMS.map((item) => (
+              <NavRailItem
+                key={item.href}
+                item={item}
+                active={isActive(item.href)}
+                onClick={handleClick}
+              />
+            ))}
+          </nav>
 
           {/* ── Hairline separator ── */}
           <div
-            className="mt-5 mb-4"
-            style={{ height: '1px', background: 'rgba(245,243,240,0.07)' }}
             aria-hidden="true"
+            style={{
+              height: 1,
+              background: 'rgba(245,243,240,0.07)',
+              marginTop: 20,
+              marginBottom: 16,
+              flexShrink: 0,
+            }}
           />
 
-          {/* ── Status dot ── */}
-          <div className="flex items-center gap-2">
+          {/* ── STATUS ── */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <motion.div
               className="pixel-decoration"
-              style={{ width: 6, height: 6, background: 'var(--accent-acid)' }}
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              style={{ width: 6, height: 6, background: 'var(--accent-acid)', flexShrink: 0 }}
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: 2.2, repeat: Infinity }}
             />
             <span
-              className="font-pixel uppercase"
-              style={{ fontSize: '7px', letterSpacing: '0.18em', color: 'var(--accent-acid)' }}
+              className="font-mono"
+              style={{
+                fontSize: '0.58rem',
+                letterSpacing: '0.18em',
+                color: 'var(--accent-acid)',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+              }}
             >
-              ONLINE
+              Available
             </span>
           </div>
+
         </div>
       </motion.nav>
 
       {/* ════════════════════════════════════════
-          MOBILE TOP BAR — <900px only
+          MOBILE TOP BAR — <900px
           ════════════════════════════════════════ */}
       <motion.header
-        initial={{ y: -56, opacity: 0 }}
+        initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0,   opacity: 1 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="vnav-mobile-bar fixed top-0 left-0 right-0 z-50 h-[var(--nav-height)]
-                   flex items-center justify-between px-5"
+                   items-center justify-between px-5"
         style={{
-          background: 'rgba(8,9,13,0.92)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(245,243,240,0.05)',
+          background: 'rgba(8,9,13,0.94)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(245,243,240,0.06)',
         }}
       >
-        {/* Brand */}
         <Link
           to="/"
           onClick={(e) => handleClick(e, '/')}
-          className="flex items-center gap-2.5"
-          style={{ textDecoration: 'none' }}
+          style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
         >
           <div
-            className="font-display font-extrabold tracking-tight"
-            style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}
+            className="pixel-decoration"
+            style={{ width: 7, height: 7, background: activeItem.accent, flexShrink: 0 }}
+          />
+          <span
+            className="font-display font-extrabold"
+            style={{ fontSize: '1.05rem', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}
           >
             NUR<span style={{ color: activeItem.accent }}>.</span>YANFA
-          </div>
+          </span>
         </Link>
 
-        {/* Hamburger */}
         <motion.button
           onClick={() => setMobileOpen(v => !v)}
           whileTap={{ scale: 0.9 }}
-          className="w-9 h-9 flex items-center justify-center"
-          style={{ color: 'var(--text-primary)' }}
+          style={{
+            width: 36,
+            height: 36,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--text-primary)',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
         >
           <AnimatePresence mode="wait">
             {mobileOpen
-              ? <motion.div key="x"    initial={{ rotate:-90, opacity:0 }} animate={{ rotate:0, opacity:1 }} exit={{ rotate:90,  opacity:0 }} transition={{ duration:0.15 }}><X    size={20}/></motion.div>
-              : <motion.div key="menu" initial={{ rotate: 90, opacity:0 }} animate={{ rotate:0, opacity:1 }} exit={{ rotate:-90, opacity:0 }} transition={{ duration:0.15 }}><Menu size={20}/></motion.div>
+              ? <motion.div key="x"    initial={{ rotate:-90, opacity:0 }} animate={{ rotate:0, opacity:1 }} exit={{ rotate:90,  opacity:0 }} transition={{ duration:0.14 }}><X    size={20}/></motion.div>
+              : <motion.div key="menu" initial={{ rotate: 90, opacity:0 }} animate={{ rotate:0, opacity:1 }} exit={{ rotate:-90, opacity:0 }} transition={{ duration:0.14 }}><Menu size={20}/></motion.div>
             }
           </AnimatePresence>
         </motion.button>
@@ -218,32 +284,40 @@ export function VerticalNav() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity:0 }}
-            animate={{ opacity:1 }}
-            exit={{    opacity:0 }}
-            transition={{ duration:0.22 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center px-8"
-            style={{ background: 'rgba(8,9,13,0.97)', backdropFilter: 'blur(20px)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{    opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 40,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              padding: '0 2rem',
+              background: 'rgba(8,9,13,0.97)',
+              backdropFilter: 'blur(24px)',
+            }}
           >
-            <nav className="space-y-6">
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
               {NAV_ITEMS.map((item, i) => {
                 const active = isActive(item.href);
                 return (
                   <motion.div
                     key={item.href}
-                    initial={{ opacity:0, x:-24 }}
+                    initial={{ opacity:0, x:-28 }}
                     animate={{ opacity:1, x:0 }}
-                    transition={{ delay: i*0.06, duration:0.3, ease:[0.16,1,0.3,1] }}
+                    transition={{ delay: i * 0.06, duration: 0.3, ease: [0.16,1,0.3,1] }}
                   >
                     <Link
                       to={item.href}
                       onClick={(e) => handleClick(e, item.href)}
-                      className="flex items-center gap-4 group"
-                      style={{ textDecoration: 'none' }}
+                      style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 20 }}
                     >
                       <span
-                        className="font-pixel"
-                        style={{ fontSize:'9px', letterSpacing:'0.18em', color: item.accent }}
+                        className="font-mono"
+                        style={{ fontSize: '0.7rem', letterSpacing: '0.18em', color: item.accent }}
                       >
                         {item.index}
                       </span>
@@ -251,16 +325,16 @@ export function VerticalNav() {
                         className="font-display font-bold"
                         style={{
                           fontSize: 'clamp(1.8rem, 6vw, 2.6rem)',
-                          color: active ? item.accent : 'var(--text-primary)',
                           letterSpacing: '-0.02em',
+                          color: active ? item.accent : 'var(--text-primary)',
                         }}
                       >
                         {item.label}
                       </span>
                       {active && (
                         <div
-                          className="pixel-decoration rotate-45"
-                          style={{ width:8, height:8, background: item.accent, flexShrink:0 }}
+                          className="pixel-decoration"
+                          style={{ width: 8, height: 8, background: item.accent, transform: 'rotate(45deg)', flexShrink: 0 }}
                         />
                       )}
                     </Link>
@@ -269,14 +343,13 @@ export function VerticalNav() {
               })}
             </nav>
 
-            {/* Bottom status */}
-            <div className="absolute bottom-8 left-8 flex items-center gap-2">
-              <div className="pixel-decoration" style={{ width:5, height:5, background:'var(--accent-acid)' }} />
+            <div style={{ position: 'absolute', bottom: 32, left: 32, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div className="pixel-decoration" style={{ width: 5, height: 5, background: 'var(--accent-acid)' }} />
               <span
-                className="font-pixel uppercase"
-                style={{ fontSize:'7px', letterSpacing:'0.2em', color:'var(--text-faint)' }}
+                className="font-mono"
+                style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--text-faint)', textTransform: 'uppercase' }}
               >
-                ONLINE · AVAILABLE
+                Online · Available
               </span>
             </div>
           </motion.div>
@@ -286,13 +359,17 @@ export function VerticalNav() {
   );
 }
 
-/* ── Single rail item ─────────────────────────
+/* ── NavRailItem ──────────────────────────────
    
-   Structure:
-     [index]  LABEL  [━━ indicator]
+   Fixed layout — no clamp on label size.
    
-   Active: left pink bar slides in with layoutId
-   Hover:  label shifts right slightly
+   Structure (128px usable):
+   ┌─────────────────────────────────────┐
+   │ ▏ 01   IDENTITY            ◆       │
+   └─────────────────────────────────────┘
+   
+   Left 2px border = active indicator
+   Right ◆ = active pixel marker
    ─────────────────────────────────────────── */
 function NavRailItem({
   item,
@@ -313,35 +390,52 @@ function NavRailItem({
       onMouseLeave={() => setHovered(false)}
       aria-current={active ? 'page' : undefined}
       data-cursor="link"
-      className="relative flex items-center gap-2.5 py-2 px-2 group"
       style={{
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '7px 8px',
         textDecoration: 'none',
-        /* Left accent line for active */
+        /* Active left border */
         borderLeft: active
           ? `2px solid ${item.accent}`
           : '2px solid transparent',
-        transition: 'border-color 0.15s ease',
+        transition: 'border-color 0.18s ease',
+        /* No overflow hidden — let content breathe */
+        overflow: 'visible',
       }}
     >
-      {/* Active background tint */}
+      {/* Active background tint — animated via layoutId */}
       {active && (
         <motion.div
           layoutId="nav-rail-bg"
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: `${item.accent}0D` }}
-          transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: `${item.accent}12`,
+            pointerEvents: 'none',
+          }}
+          transition={{ type: 'spring', stiffness: 400, damping: 38 }}
         />
       )}
 
-      {/* Index */}
+      {/* Index number */}
       <span
-        className="font-pixel relative z-10 shrink-0"
+        className="font-mono"
         style={{
-          fontSize: '8px',
-          letterSpacing: '0.14em',
-          color: active ? item.accent : hovered ? 'var(--text-tertiary)' : 'var(--text-faint)',
+          fontSize: '0.62rem',
+          letterSpacing: '0.12em',
+          color: active
+            ? item.accent
+            : hovered
+            ? 'var(--text-tertiary)'
+            : 'var(--text-faint)',
           transition: 'color 0.15s ease',
-          minWidth: '1.6rem',
+          flexShrink: 0,
+          width: '1.8rem',
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {item.index}
@@ -349,41 +443,49 @@ function NavRailItem({
 
       {/* Label */}
       <motion.span
-        className="relative z-10 font-display font-semibold"
         animate={{
           color: active
             ? item.accent
             : hovered
             ? 'var(--text-primary)'
             : 'var(--text-secondary)',
-          x: hovered && !active ? 2 : 0,
+          x: hovered && !active ? 3 : 0,
         }}
-        transition={{ duration: 0.12 }}
+        transition={{ duration: 0.14 }}
         style={{
-          fontSize: 'clamp(0.62rem, 0.9vw, 0.72rem)',
-          letterSpacing: '0.08em',
+          fontFamily: 'var(--font-display)',
+          fontWeight: 600,
+          fontSize: '0.7rem',
+          letterSpacing: '0.07em',
           lineHeight: 1,
+          flex: 1,
+          position: 'relative',
+          zIndex: 1,
+          whiteSpace: 'nowrap',
         }}
       >
         {item.label}
       </motion.span>
 
-      {/* Active: animated bar indicator right side */}
+      {/* Active: pixel diamond marker */}
       <AnimatePresence>
         {active && (
           <motion.div
-            key="bar"
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: 1 }}
-            exit={{    scaleX: 0, opacity: 0 }}
-            className="relative z-10 ml-auto shrink-0 origin-right"
+            key="diamond"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{    opacity: 0, scale: 0 }}
+            transition={{ duration: 0.18, ease: [0.16,1,0.3,1] }}
+            className="pixel-decoration"
             style={{
-              width: 20,
-              height: 2,
+              width: 5,
+              height: 5,
               background: item.accent,
-              imageRendering: 'pixelated',
+              transform: 'rotate(45deg)',
+              flexShrink: 0,
+              position: 'relative',
+              zIndex: 1,
             }}
-            transition={{ duration: 0.22, ease: [0.16,1,0.3,1] }}
           />
         )}
       </AnimatePresence>
